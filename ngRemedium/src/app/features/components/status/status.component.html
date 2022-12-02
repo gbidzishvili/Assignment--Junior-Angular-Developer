@@ -1,0 +1,55 @@
+<div class="container" >
+    <div class="title">User status</div>
+    <div >
+        <form class="filter" [formGroup] = FilterForm>
+            <label><h2>filter:</h2></label>
+            <input type="text" formControlName="filter" placeholder="Search Here..." onfocus="this.placeholder=''" >
+        </form>
+    </div>
+    <div >
+        <ul class="table">
+            <li *ngFor="let status of statusArr | filter:searchText; let i = index">
+                <div class="li-context"><h2 class="status">{{status.status}}</h2>
+                <div class="action">
+                <button class="edit" (click)="openEdit(i)">Edit</button>
+                <button  class="add" (click)="openAdd(i)">Add</button>
+                <button  class="delete" (click)="delete(i)">Delete</button>
+                </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="modal" *ngIf="modalEditOpen"  >
+        <div class="background" (click)="closeModalEdit()"></div>
+        <div class="modal-content" >
+            <h3>Edit Status</h3>
+            <input type="text" [formControl]="editstatus" (keyup.enter)="editStatus()">
+            <div class="buttons">
+                <button (click)="editStatus()" >Edit</button>
+                <button (click)="closeModalEdit()">Close</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" *ngIf="modalAddOpen" >
+        <div class="background" (click)="closeModaladd()"></div>
+        <div class="modal-content" >
+            <h3>Add Status</h3>
+                <input type="text" [formControl]="addstatus" (keyup.enter)="addNewStatus()"  >
+                <div *ngIf="showError">Enter User status</div>
+                <div class="buttons">
+                    <button (click)="addNewStatus()" >Add</button>
+                    <button (click)="closeModaladd()">Close</button>
+                </div>
+        </div>
+    </div>
+    <div class="modal" *ngIf="modalDeleteOpen" >
+        <div class="background" (click)="closeModalDelete()"></div>
+        <div class="modal-content" >
+            <h3>Do you want to delete <em>{{status}}?</em></h3>
+            <div class="buttons">
+                <button (click)="DeleteNewStatus()" >Delete</button>
+                <button (click)="closeModalDelete()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

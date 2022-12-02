@@ -1,0 +1,26 @@
+.li-context{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60vw;
+    padding: 10px 20px;
+    border: 1px solid #757575;
+    background-color: #fff;
+    border-radius: 7px;
+}
+.title{
+    background-color: #5c7cfa;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    color: #fff;
+    font-size: 30px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+.user{
+
+    color: #515151;
+}

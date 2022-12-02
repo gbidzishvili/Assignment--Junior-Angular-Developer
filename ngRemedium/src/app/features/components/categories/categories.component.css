@@ -1,0 +1,145 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    
+}
+.container{
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+.title{
+    background-color: #5c7cfa;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    color: #fff;
+    font-size: 30px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+.filter{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+ul{
+    list-style-type:none;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+.user{
+   
+color: #515151;
+}
+.action{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 180px;
+    color: #5c7cfa;
+}
+.action_center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 180px;
+    /* color: #5c7cfa; */
+}
+.li-context{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60vw;
+    padding: 10px 20px;
+    border: 1px solid #757575;
+    background-color: #fff;
+    border-radius: 7px;
+}
+.li-context_2{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60vw;
+    padding: 10px 20px;
+    border: 1px solid #757575;
+    background-color: #fff;
+    /* border-radius: 7px; */
+}
+.li-context{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60vw;
+    padding: 10px 20px;
+    border: 1px solid #757575;
+    background-color: #fff;
+    border-radius: 7px;
+}
+.background{
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right: 0;
+    background-color: rgb(50,50,50,0.4);
+}
+.modal-content{
+    position: absolute;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #fff;
+}
+.buttons{
+    display: flex;
+    gap:5px;
+    
+}
+.buttons button{
+    cursor: pointer;
+    border-radius: 7px;
+    background-color: rgb(57, 162, 233);
+    border:none;
+    padding: 7px 14px;
+    color: #fff;
+}
+button{
+    cursor: pointer;
+    border-radius: 7px;
+    border:none;
+    padding: 7px 14px;
+    color: #5c7cfa;
+    background-color: #e4e4e4;
+}
+input{
+    border:1px solid #757575;
+    border-radius: 5px;
+    padding: 7px 14px;
+}
+input:focus{
+    outline: none;
+   
+}
+.error{
+    display: none;
+}
+.error.ng-invalid{
+    display: block;
+}
