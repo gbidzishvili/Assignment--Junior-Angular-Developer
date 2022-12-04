@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { CategoriesComponent } from './features/components/categories/categories.component';
 import { StatusComponent } from './features/components/status/status.component';
 import { ListComponent } from './features/components/list/list.component';
-import { DetailsComponent, MY_FORMATS } from './features/components/details/details.component';
+import { DetailsComponent } from './features/components/details/details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -47,22 +47,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     BsDatepickerModule.forRoot(),
   ],
   providers: [
-  //   { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE, 
-  //   MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
-  // { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }, 
-  // {
-  //     provide: MAT_DATE_FORMATS, useValue: {
-  //         parse: {
-  //             dateInput: "L",
-  //         },
-  //         display: {
-  //             dateInput: "L",
-  //             monthYearLabel: "MMM YYYY",
-  //             dateA11yLabel: "LL",
-  //             monthYearA11yLabel: "MMMM YYYY",
-  //         },
-  //     }
-  // }
 ],
   bootstrap: [AppComponent]
 })

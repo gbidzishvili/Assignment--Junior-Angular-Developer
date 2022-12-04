@@ -1,15 +1,72 @@
-<!-- <div class="container" >
-    <div class="title">Users List</div>
-    <ul class="table">
-        <li *ngFor="let user of list" >
-            <div class="li-context"><span class="user">
-                mail:{{user.mail}}</span>
-                pn:{{user.pn}} 
-                name:{{user.name}} 
-                surname:{{user.surname}} 
-                birthDate:{{user.birthDate}} 
-                category:{{user.category}} 
-                status:{{user.status}}</span></div>
-        </li>
-    </ul>
-</div> -->
+<div class="example-container mat-elevation-z8">
+    <div class="filters">
+        <span>Filter by:</span>
+        <button (click)="openFiltByText()" class="buttons"[className]="filterByText ? 'buttons_2' : 'buttons'">strings</button>
+        <button (click)="openFiltBydates()" class="buttons"[className]="filterByDates ? 'buttons_2' : 'buttons'">dates</button>
+    </div>
+    <form class="dates"[formGroup]="datesForm" *ngIf="filterByDates">
+        <label>Filter by date:</label>
+         <input type="text"
+               placeholder="startDate"
+               class="form-control choose_Date"
+               bsDatepicker
+               [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',  returnFocusToInput: true }"
+               (bsValueChange)="startDateChange($event)">
+         <input type="text"
+               placeholder="endDate"
+               class="form-control choose_Date"
+               bsDatepicker
+               [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',  returnFocusToInput: true }"
+               (bsValueChange)="endDateChange($event)">
+       
+               <span class="material-icons search" (click)="applyDateFilter()">
+                 search
+                 </span>
+      
+    </form >
+       <div class="example-header" *ngIf="filterByText">
+           <mat-form-field>
+             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+           </mat-form-field>
+         </div>
+       <mat-table #table [dataSource]="dataSource">
+   
+         <ng-container matColumnDef="mail">
+           <mat-header-cell *matHeaderCellDef> mail </mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.mail}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="pn">
+           <mat-header-cell *matHeaderCellDef> pn </mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.pn}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="name">
+           <mat-header-cell *matHeaderCellDef> name</mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="surname">
+           <mat-header-cell *matHeaderCellDef> surname</mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.surname}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="birthDate">
+           <mat-header-cell *matHeaderCellDef> birthDate</mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.birthDate}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="category">
+           <mat-header-cell *matHeaderCellDef> category</mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="status">
+           <mat-header-cell *matHeaderCellDef> status</mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+         </ng-container>
+     
+     
+         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+       </mat-table>
+       <mat-paginator #paginator 
+                 [pageSize]="10"
+                 [pageSizeOptions]="[2,4,5, 10, 25]">
+       </mat-paginator>
+   </div>
+   

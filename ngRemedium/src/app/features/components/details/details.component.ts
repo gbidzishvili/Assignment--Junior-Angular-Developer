@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewChild }
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { filter } from 'rxjs';
 import { DropdownServiceService } from 'src/app/shared/dropdown-service.service';
 
 @Component({
@@ -11,9 +12,10 @@ import { DropdownServiceService } from 'src/app/shared/dropdown-service.service'
 })
 
 export class DetailsComponent implements OnInit,AfterViewInit {
+  names = ["Demavand", "Pradeep", "Ashutosh"]
   list=[
     {
-      mail:"bidzishvili@gmal.com",
+      mail:"bidzishvili@gmail.com",
       pn:"12001034395",
       name:"giorgi",
       surname:"bidzishvili",
@@ -23,7 +25,7 @@ export class DetailsComponent implements OnInit,AfterViewInit {
 
     },
     {
-      mail:"chkadua@gmal.com",
+      mail:"chkadua@gmail.com",
       pn:"17054305678",
       name:"nata",
       surname:"chkadua",
@@ -116,9 +118,9 @@ export class DetailsComponent implements OnInit,AfterViewInit {
     }
   endDateChange(e){
     console.log(e)
-    this.year =new Date(e.value).getFullYear();
-    this.month =new Date(e.value).getMonth()+1;
-    this.day =new Date(e.value).getDate();
+    this.year =new Date(e).getFullYear();
+    this.month =new Date(e).getMonth()+1;
+    this.day =new Date(e).getDate();
     this.endDate = (this.day)+"/"+(this.month)+"/"+(this.year)
     if(this.my_date(this.endDate)<0){
       this.endDate =(this.month)+"/"+(this.day)+"/"+(this.year)
@@ -127,16 +129,29 @@ export class DetailsComponent implements OnInit,AfterViewInit {
     console.log("endDate: " + this.my_date(this.endDate))
     return this.endDate;
   }
-  applyFilter(event){
-    console.log(event)
-    console.log(`*///*  ${this.my_date("19/01/2020")}  ${this.my_date(event)}`,)
-    let x = this.list[0].birthDate;
-    console.log(x, new Date("15/01/2002").getTime())
-    console.log(x, x.slice(3,5))
-    console.log(x, x.slice(0,2))
-    this.dataSource = new MatTableDataSource(this.list);
-    this.dataSource.data = this.dataSource.data.filter(e=>
-    this.my_date(e.birthDate) >= this.my_date(this.startDate) && this.my_date(e.birthDate) <= this.my_date(this.endDate));
+  // applyFilter(event){
+  //   console.log(event)
+  //   console.log(`*///*  ${this.my_date("19/01/2020")}  ${this.my_date(event)}`,)
+  //   let x = this.list[0].birthDate;
+  //   console.log(x, new Date("15/01/2002").getTime())
+  //   console.log(x, x.slice(3,5))
+  //   console.log(x, x.slice(0,2))
+  //   this.dataSource = new MatTableDataSource(this.list);
+  //   this.dataSource.data = this.dataSource.data.filter(e=>
+  //   this.my_date(e.birthDate) >= this.my_date(this.startDate) && this.my_date(e.birthDate) <= this.my_date(this.endDate));
+  // }
+  applyFilter(filterValue: string) {
+    console.log(+filterValue*0===0);
+   if(+filterValue*0!==0 || filterValue==="")
+    {filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;}
+    else{
+      console.log("*/" + filterValue);
+      
+      console.log(+filterValue*0===0)
+      console.log("number")
+    }
   }
   applyDateFilter(){
     console.log("**())")
@@ -160,25 +175,10 @@ export class DetailsComponent implements OnInit,AfterViewInit {
     // console.log(new Date(year, month -1, day).getTime())
     return new Date(year, month -1, day).getTime();
   }
-  
+  consolesmth(){
+    console.log("smth")
+  }
   
 }
 
 
-export interface Element {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'LL',
-  },
-  display: {
-    dateInput: 'DD-MM-YYYY',
-    monthYearLabel: 'YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'YYYY',
-  },
-};

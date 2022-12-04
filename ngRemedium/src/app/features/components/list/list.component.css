@@ -1,26 +1,63 @@
-.li-context{
+.example-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 60vw;
-    padding: 10px 20px;
-    border: 1px solid #757575;
-    background-color: #fff;
-    border-radius: 7px;
-}
-.title{
-    background-color: #5c7cfa;
-    width: 100vw;
+    flex-direction: column;
+    min-width: 300px;
+  }
+  .filters{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    padding: 5px;
-    color: #fff;
-    font-size: 30px;
-    margin-bottom: 10px;
-    font-weight: 700;
-}
-.user{
+    gap: 5px;
+    color: rgb(139, 139, 139);
+    padding: 10px;
 
-    color: #515151;
-}
+  }
+  
+  .buttons{
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: #000;
+    background-color: rgb(240, 240, 240);
+  }
+  .buttons_2{
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    color: #000;
+    background-color: rgb(100, 94, 194);
+  }
+  .dates{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 10px;
+  }
+  label{
+    color: rgb(136, 136, 136);
+  }
+  .choose_Date{
+    padding: 7px;
+    /* border-radius: 8px; */
+  }
+  .search{
+    cursor:pointer;
+  }
+  .example-header {
+    min-height: 64px;
+    /* max-width: 200px; */
+    padding: 10px;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  .date{
+    /* min-width: 150px; */
+    max-width: 150px;
+  }
+  .mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
