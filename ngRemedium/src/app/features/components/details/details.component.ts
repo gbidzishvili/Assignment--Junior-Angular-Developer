@@ -4,7 +4,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { filter } from 'rxjs';
 import { DropdownServiceService } from 'src/app/shared/dropdown-service.service';
-
+import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { DialogComponent } from './dialog/dialog.component';
+import { Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -99,10 +101,17 @@ export class DetailsComponent implements OnInit,AfterViewInit {
     endDate : new FormControl(),
   })
   @ViewChild('paginator') paginator:MatPaginator;
-  constructor(public drService:DropdownServiceService) {}
+  constructor(public drService:DropdownServiceService,public dialog:MatDialog) {}
   ngOnInit(): void {
+    this.drService.list.subscribe((value:User[])=>{
+      console.log("details value");
+      console.log(value)
+      this.list = [...value]
+      this.dataSource = new MatTableDataSource(this.list);
+      })
+    // this.list = [...]
+    console.log(this.list)
     this.dataSource = new MatTableDataSource(this.list);
-    console.log()
   }
   startDateChange(e){
     console.log("/*/*/", new Date(e))
@@ -129,17 +138,6 @@ export class DetailsComponent implements OnInit,AfterViewInit {
     console.log("endDate: " + this.my_date(this.endDate))
     return this.endDate;
   }
-  // applyFilter(event){
-  //   console.log(event)
-  //   console.log(`*///*  ${this.my_date("19/01/2020")}  ${this.my_date(event)}`,)
-  //   let x = this.list[0].birthDate;
-  //   console.log(x, new Date("15/01/2002").getTime())
-  //   console.log(x, x.slice(3,5))
-  //   console.log(x, x.slice(0,2))
-  //   this.dataSource = new MatTableDataSource(this.list);
-  //   this.dataSource.data = this.dataSource.data.filter(e=>
-  //   this.my_date(e.birthDate) >= this.my_date(this.startDate) && this.my_date(e.birthDate) <= this.my_date(this.endDate));
-  // }
   applyFilter(filterValue: string) {
     console.log(+filterValue*0===0);
    if(+filterValue*0!==0 || filterValue==="")
@@ -178,7 +176,25 @@ export class DetailsComponent implements OnInit,AfterViewInit {
   consolesmth(){
     console.log("smth")
   }
-  
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '40%',
+      data: {name: "this.name", animal: "this.animal"},
+    });
 }
+  addItem(newItem) {
+    this.list = [...newItem];
+    console.log("asdfasdga*****", this.list)
+  }
+  
+} 
 
-
+interface User {
+  mail:string,
+  pn:string,
+  name:string,
+  surname:string,
+  birthDate:string,
+  category:string,
+  status:string
+}

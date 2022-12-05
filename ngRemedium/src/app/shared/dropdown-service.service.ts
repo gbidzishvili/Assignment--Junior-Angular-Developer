@@ -18,6 +18,7 @@ export class DropdownServiceService {
     {status:'Blocked'},
     {status:'Suspended'}
   ]
+  list = new Subject();
   constructor() { }
   getUsers(){
     return this.usersArr.slice();

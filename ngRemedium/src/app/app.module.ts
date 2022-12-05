@@ -13,14 +13,20 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule} from '@angular/material/table'
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {DateAdapter, MatNativeDateModule} from '@angular/material/core';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-
+import {MatButtonModule} from '@angular/material/button';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { HttpClientModule } from '@angular/common/http';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DialogComponent } from './features/components/details/dialog/dialog.component';
+import { MatSelectModule} from '@angular/material/select';
+import {MatIconModule} from '@angular/material/icon';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +34,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     StatusComponent,
     ListComponent,
     DetailsComponent,
+    DialogComponent,
     
   ],
   imports: [
@@ -45,8 +52,14 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     MatNativeDateModule, 
     MatMomentDateModule,
     BsDatepickerModule.forRoot(),
+    MatButtonModule,
+    HttpClientModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatIconModule
   ],
   providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
 ],
   bootstrap: [AppComponent]
 })

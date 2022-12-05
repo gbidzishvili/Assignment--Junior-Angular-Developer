@@ -24,12 +24,6 @@
     ]
     
   },
-  // "angularCompilerOptions": {
-  //   "enableI18nLegacyMessageIdFormat": false,
-  //   "strictInjectionParameters": true,
-  //   "strictInputAccessModifiers": true,
-  //   "strictTemplates": true
-  // }
   "forceConsistentCasingInFileNames": false,
    "strict": false,
    "noImplicitReturns": false,
@@ -38,5 +32,8 @@
       "strictInjectionParameters": false,
       "strictInputAccessModifiers": false,
       "strictTemplates": false
-   }
+   },
+   "include": [
+    "**/*"
+]
 }

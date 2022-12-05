@@ -1,0 +1,104 @@
+.dialog{
+    display: flex;
+    flex-direction: column;
+}
+.title{
+    display: flex;
+    justify-content: center;
+    background-color: #52a352;
+    color: #fff;
+    padding: 10px;
+}
+mat-form-field{
+    height: 76px;
+}
+.date{
+    padding: 0px 10.5px;
+    width: 70%;
+    height: 47px;
+    color: rgba(0,0,0,0.8);
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+.date:hover{
+    outline:2px solid black;
+
+}
+.date:focus{
+    outline:2px solid #673ab7;
+
+}
+.inner-cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 77px;
+}
+input::placeholder {
+    color: rgb(145, 145, 145);
+    font-size: 14px;
+}
+.hint{
+    padding: 0 10.5px;
+    font-size: 10.5px;
+    margin-bottom: 5px;
+}
+mat-hint{
+    margin-bottom: 5px;
+}
+.input-cont{
+    display: flex;
+    justify-content: space-between;
+}
+.mail{
+    width: 100%;
+}
+.pn{
+    width: 100%;
+}
+.name{
+    width: 45%;
+}
+.surname{
+    width: 45%;
+}
+.category{
+    width: 45%;
+}
+.status{
+    width: 45%;
+}
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+}
+button{
+    border: none;
+    background-color: #4db24d;
+    padding: 7px 14px;
+    border-radius: 7px;
+    color: #fff;
+}
+.btn-disabled{
+    background-color: lightgray;
+}
+.btn-enabled{
+    background-color: #4db24d;
+}
+.add{
+    width: 68.5px;
+
+}
+.error{
+    color: red;
+    outline:2px solid red;
+}
+.error::placeholder{
+    color: red;
+}
+.green{
+    color: #fff;
+    outline:2px solid #fff;
+}

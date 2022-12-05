@@ -1,0 +1,57 @@
+<!-- <h1 mat-dialog-title class="title">Add New Users</h1>
+<div  mat-dialog-content>
+   <form class="dialog" [formGroup]="userForm" >
+       
+        <mat-form-field class="mail" >
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="mail" formControlName="mail">
+          </mat-form-field>
+        
+          <div class="inner-cont ">
+            <input matInput autocomplete="off" type="text" class="date" 
+            #itemName1 
+            [ngClass]="checkIfValidvalue(itemName1)"
+            placeholder="dd/mm/yyyy *"
+            bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY',  returnFocusToInput: true }"
+            (bsValueChange)="getData($event)"
+            formControlName="birthDate">
+        </div>
+        <mat-form-field class="pn" >
+            <mat-label>PN</mat-label>
+            <input matInput placeholder="Enter PN" formControlName="pn">
+        </mat-form-field>
+    
+       <div class="input-cont">
+            <mat-form-field class="name" >
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Enter Your Name"  formControlName="name">
+            </mat-form-field>
+        
+            <mat-form-field class="surname">
+                <mat-label>SurName</mat-label>
+                <input matInput placeholder="Enter Your Name" formControlName="surname">
+            </mat-form-field>
+       </div>
+       
+        <div class="input-cont">
+            <mat-form-field class="category">
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="category" >
+                <mat-option *ngFor="let item of categoriesArr" value="{{item}}">{{item}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="status">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="status">
+                <mat-option *ngFor="let status of statusArr" value="{{status}}">{{status}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="buttons">
+            <button type="submit" class="add" (click)="addUser()"
+            [ngClass]="isValid()" [disabled]="!formIsValid">Add</button>
+            <button type="button" mat-dialog-close>Cancel</button>
+        </div>
+   </form>
+</div> -->

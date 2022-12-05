@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { filter } from 'rxjs';
 import { DropdownServiceService } from 'src/app/shared/dropdown-service.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-list',
@@ -101,10 +102,11 @@ export class ListComponent implements OnInit {
     endDate : new FormControl(),
   })
   @ViewChild('paginator') paginator:MatPaginator;
-  constructor(public drService:DropdownServiceService) {}
+  constructor(public drService:DropdownServiceService,public http:HttpClient) {}
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.list);
-    console.log()
+    
+    this.http.get("http://localhost:3000/api/courses").subscribe(v=>console.log(v));
   }
   startDateChange(e){
     console.log("/*/*/", new Date(e))
@@ -176,4 +178,5 @@ export class ListComponent implements OnInit {
   openFiltBydates(){
     this.filterByDates = !this.filterByDates;
   }
+
 }

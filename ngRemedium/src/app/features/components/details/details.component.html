@@ -1,0 +1,42 @@
+<div (newItemEvent)="addItem($event)" class="example-container mat-elevation-z8">
+    <!-- <app-item-output ></app-item-output> -->
+       <button mat-raised-button (click)="openDialog()" class="add-user">Add User</button>
+       <mat-table #table [dataSource]="dataSource">
+         <ng-container matColumnDef="mail">
+           <mat-header-cell *matHeaderCellDef> mail </mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.mail}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="pn">
+           <mat-header-cell *matHeaderCellDef> pn </mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.pn}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="name">
+           <mat-header-cell *matHeaderCellDef> name</mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="surname">
+           <mat-header-cell *matHeaderCellDef> surname</mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.surname}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="birthDate">
+           <mat-header-cell *matHeaderCellDef> birthDate</mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.birthDate}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="category">
+           <mat-header-cell *matHeaderCellDef> category</mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
+         </ng-container>
+         <ng-container matColumnDef="status">
+           <mat-header-cell *matHeaderCellDef> status</mat-header-cell>
+           <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+         </ng-container>
+         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+         
+       </mat-table>
+       <mat-paginator #paginator 
+                 [pageSize]="10"
+                 [pageSizeOptions]="[2,4,5, 10, 25]">
+       </mat-paginator>
+   </div>
+  

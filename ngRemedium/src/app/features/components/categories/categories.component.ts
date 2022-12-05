@@ -44,8 +44,10 @@ export class CategoriesComponent implements OnInit,OnChanges {
     this.edituser.setValue(this.usersArr[this.idx].user)
   }
   editUser(){
+    if(this.modalEditOpen){
     this.usersArr[this.idx]=this.edituser.value;
     this.closeModalEdit();
+    }
   }
   openAdd(i:number){
     if(this.adduser.valid){
