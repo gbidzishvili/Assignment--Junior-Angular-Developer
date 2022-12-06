@@ -7,6 +7,8 @@ import { DropdownServiceService } from 'src/app/shared/dropdown-service.service'
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
 import { Output, EventEmitter } from '@angular/core';
+import { DataSource } from '@angular/cdk/collections';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -87,7 +89,7 @@ export class DetailsComponent implements OnInit,AfterViewInit {
 
     },
   ]
-  displayedColumns = ['mail', 'pn', 'name', 'surname','birthDate','category',  'status'];
+  displayedColumns = ['mail', 'pn', 'name', 'surname','birthDate','category',  'status','actions'];
   dataSource:MatTableDataSource<any>;
   maxDate = new Date(2022,11,30);
   minDate = new Date(2002,0,1)
@@ -96,21 +98,22 @@ export class DetailsComponent implements OnInit,AfterViewInit {
   year:number;
   month:number;
   day:number;
+  process:string;
+  selectValue;
   datesForm = new FormGroup({
     startDate : new FormControl(),
     endDate : new FormControl(),
   })
   @ViewChild('paginator') paginator:MatPaginator;
-  constructor(public drService:DropdownServiceService,public dialog:MatDialog) {}
+  constructor(public drService:DropdownServiceService,public dialog:MatDialog,public router:Router) {}
   ngOnInit(): void {
     this.drService.list.subscribe((value:User[])=>{
       console.log("details value");
       console.log(value)
-      this.list = [...value]
+      this.list = value
       this.dataSource = new MatTableDataSource(this.list);
+      this.dataSource.paginator = this.paginator
       })
-    // this.list = [...]
-    console.log(this.list)
     this.dataSource = new MatTableDataSource(this.list);
   }
   startDateChange(e){
@@ -176,17 +179,23 @@ export class DetailsComponent implements OnInit,AfterViewInit {
   consolesmth(){
     console.log("smth")
   }
-  openDialog(): void {
+  openDialog(e): void {
+    console.log("event: ",e)
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '40%',
-      data: {name: "this.name", animal: "this.animal"},
+      data:e,
     });
 }
   addItem(newItem) {
     this.list = [...newItem];
     console.log("asdfasdga*****", this.list)
   }
-  
+  deleteElement(index){
+    this.list.splice(index,1)
+    this.dataSource = new MatTableDataSource(this.list);
+      this.dataSource.paginator = this.paginator
+  }
+
 } 
 
 interface User {

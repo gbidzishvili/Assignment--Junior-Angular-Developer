@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { DropdownServiceService } from 'src/app/shared/dropdown-service.service';
 import { Output, EventEmitter } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
@@ -98,30 +100,47 @@ export class DialogComponent implements OnInit {
   birthDate;
   birthDateValue=true;
   formIsValid=false;
+  editing=false;
+  adding=false;
+  title:string;
+  newData;
+  action:string;
+  sendingData={
+    mail:"",
+    pn:"",
+    name:"",
+    surname:"",
+    birthDate:"",
+    category:"",
+    status:""
+  };
   @Output() newItemEvent = new EventEmitter();
-  constructor(public drService:DropdownServiceService) { }
+  constructor(public drService:DropdownServiceService,
+    @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit(): void {
-    this.drService.list.next(this.list)
-    this.drService.list.subscribe((list:User[])=>{
-    console.log("dialog value list")
-      console.log(list)
-      this.list = [...list];
+    if(this.data==="add"){
+      this.action="Save";
+      this.title="Add New User";
+      this.adding = true;
+    }else{
+      this.action="Update";
+      this.title="Edit User";
+      this.editing=true;
+      // this.newData = [...this.data]
+     for(let i in this.data){
+        this.userForm.get(`${i}`).setValue(this.data[i])
+       console.log("key: ",i,this.data[i])
+     }
     }
-    )
+    // this.drService.list.next(this.list)
+    // this.drService.list.subscribe((list:User[])=>{
+    //   this.list = [...list];
+    // }
+    // )
     
     this.list.forEach(c=>this.categoriesArr.push(c.category))
     this.list.forEach(c=>this.statusArr.push(c.status))
-    console.log(this.userForm)
-    this.userForm.get('birthDate').valueChanges.subscribe(x=>{
-     
-      // console.log(this.userForm.get(`${value.getAttribute('formControlName')}`).invalid);
-      
-    }
-    )
-    this.userForm.get('mail').valueChanges.subscribe(x=>
-      console.log("mail: " + this.userForm.get('mail').valid)
-    )
   }
  
   checkIfValidvalue(value){
@@ -139,6 +158,7 @@ export class DialogComponent implements OnInit {
     
   }
   addUser(){
+    if(this.data==="add"){
     this.year =new Date(this.userForm.value.birthDate).getFullYear();
     this.month =new Date(this.userForm.value.birthDate).getMonth()+1;
     this.day =new Date(this.userForm.value.birthDate).getDate();
@@ -146,22 +166,23 @@ export class DialogComponent implements OnInit {
       this.day = "0"+ this.day;
     }
     this.birthDate = (this.day)+"/"+(this.month)+"/"+(this.year)
-    this.userForm.value.birthDate = this.birthDate
-    this.list.push({
-      mail: this.userForm.value.mail,
-      pn: this.userForm.value.pn,
-      name: this.userForm.value.name,
-      surname: this.userForm.value.surname,
-      birthDate: this.userForm.value.birthDate,
-      category: this.userForm.value.category,
-      status: this.userForm.value.status,
-     })
-    this.drService.list.next(this.list)
-    // this.list = [...this.drService.list]
-    console.log(this.list)
-    this.newItemEvent.emit(this.list);
-    console.log("emitted")
+    this.userForm.value.birthDate = this.birthDate;
+    
+    for(let i in this.userForm.value){
+     this.sendingData[i] = this.userForm.value[i];
+     console.log("sendingData",this.sendingData,this.userForm.value[i],i)
     }
+    console.log(":::))",this.sendingData)
+    this.list.push(this.sendingData)
+    this.drService.list.next(this.list)
+    console.log("list",this.list)
+    }else{
+      this.updateForm()
+    }
+  }
+  updateForm(){
+
+  }
   isValid(){
     if(this.userForm.valid){
       this.formIsValid=true;

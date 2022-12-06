@@ -16,7 +16,10 @@ export class DropdownServiceService {
   statusArr=[
     {status:'Active'},
     {status:'Blocked'},
-    {status:'Suspended'}
+    {status:'Suspended'},
+    {status:'status1'},
+    {status:'status2'},
+    {status:'status3'}
   ]
   list = new Subject();
   constructor() { }

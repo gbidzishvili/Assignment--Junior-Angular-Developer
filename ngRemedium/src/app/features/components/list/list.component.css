@@ -12,7 +12,14 @@
     padding: 10px;
 
   }
-  
+  button{
+    cursor: pointer;
+    border-radius: 7px;
+    border:none;
+    padding: 7px 14px;
+    color: #5c7cfa;
+    background-color: #e4e4e4;
+}
   .buttons{
     border: none;
     padding: 5px;
@@ -61,3 +68,25 @@
     overflow: auto;
     max-height: 500px;
   }
+  .example-spacer {
+    flex: 1 1 auto;
+}
+h2{
+    margin: 0px;
+    color: #3f51b5;
+}
+nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+}
+a{
+    text-decoration: none;
+}
+.color-blue{
+    color: #5c7cfa;
+}
+button{
+  padding: 0px 14px;
+}

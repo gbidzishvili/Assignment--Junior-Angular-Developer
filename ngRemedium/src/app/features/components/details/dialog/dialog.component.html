@@ -1,13 +1,11 @@
-<!-- <h1 mat-dialog-title class="title">Add New Users</h1>
+<h1 mat-dialog-title class="title">{{title}}</h1>
 <div  mat-dialog-content>
    <form class="dialog" [formGroup]="userForm" >
-       
         <mat-form-field class="mail" >
             <mat-label>Email</mat-label>
             <input matInput placeholder="mail" formControlName="mail">
           </mat-form-field>
-        
-          <div class="inner-cont ">
+        <div class="inner-cont ">
             <input matInput autocomplete="off" type="text" class="date" 
             #itemName1 
             [ngClass]="checkIfValidvalue(itemName1)"
@@ -49,9 +47,11 @@
             </mat-form-field>
         </div>
         <div class="buttons">
+            <!-- <button *ngIf="adding" type="submit" class="add" (click)="addUser()"
+            [ngClass]="isValid()" [disabled]="!formIsValid">Save</button> -->
             <button type="submit" class="add" (click)="addUser()"
-            [ngClass]="isValid()" [disabled]="!formIsValid">Add</button>
+            [ngClass]="isValid()" [disabled]="!formIsValid">{{action}}</button>
             <button type="button" mat-dialog-close>Cancel</button>
         </div>
    </form>
-</div> -->
+</div>

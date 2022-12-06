@@ -26,15 +26,12 @@ export class StatusComponent implements OnInit,OnChanges {
   })
   addstatus = new FormControl("",Validators.required);
   editstatus = new FormControl("");
+  p: number = 1;
   constructor(public drService:DropdownServiceService) {}
   ngOnInit(): void {
     this.statusArr = [...this.drService.getStatus()];
     this.FilterForm.get("filter").valueChanges.subscribe((x)=>{
-      console.log(`x: ${x}`)
       this.searchText = this.FilterForm.get("filter").value;
-      console.log(`searchtext: ${this.searchText}`)
-      console.log(`value: ${this.FilterForm.get("filter").value}`)
-      console.log(`length: ${this.FilterForm.get("filter").value.length}`)
     })
 
   }
@@ -46,7 +43,8 @@ export class StatusComponent implements OnInit,OnChanges {
     this.editstatus.setValue(this.statusArr[this.idx].status)
   }
   editStatus(){
-    this.statusArr[this.idx]=this.editstatus.value;
+    this.statusArr[this.idx]={status:this.editstatus.value};
+    console.log("statusArr",this.statusArr);
     this.closeModalEdit();
   }
   openAdd(i:number){

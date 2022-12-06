@@ -1,3 +1,22 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <!-- <button mat-raised-button class="add-user">Users List</button> -->
+    <span class="page">Users List</span>
+
+    <span class="example-spacer"></span>
+    <nav>
+      <button mat-raised-button class="add-user">
+          <a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page"><span class="color-blue">Categories</span></a>
+      </button>
+         <button mat-raised-button class="add-user">
+             <a routerLink="/status" routerLinkActive="active" ariaCurrentWhenActive="page"><span class="color-blue">Status</span></a>
+         </button>
+         <button mat-raised-button class="add-user">
+             <a routerLink="/details" routerLinkActive="active" ariaCurrentWhenActive="page"><span class="color-blue">Details</span></a>
+         </button>
+    </nav>
+  </mat-toolbar-row>
+</mat-toolbar>
 <div class="example-container mat-elevation-z8">
     <div class="filters">
         <span>Filter by:</span>

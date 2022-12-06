@@ -2,3 +2,55 @@
     background-color: #0ab10a;
     color: #fff;
 }
+.edit{
+    /* color: green;
+     */
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+.delete{
+    color: red;
+}
+  
+.example-spacer {
+    flex: 1 1 auto;
+}
+h2{
+    margin: 0px;
+    color: #3f51b5;
+}
+nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+}
+a{
+    text-decoration: none;
+}
+.color-blue{
+    color: #5c7cfa;
+}
+
+.routing{
+    
+        cursor: pointer;
+        border-radius: 7px;
+        border:none;
+        padding: 0px 14px;
+        color: #5c7cfa;
+        background-color: #e4e4e4;
+    
+}
+.title{
+    /* background-color: #5c7cfa; */
+    width: 100vw;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+    color: #fff;
+    font-size: 30px;
+    font-weight: 700;
+}

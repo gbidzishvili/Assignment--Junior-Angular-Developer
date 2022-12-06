@@ -1,6 +1,7 @@
 import { FactoryTarget } from '@angular/compiler';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { DropdownServiceService } from 'src/app/shared/dropdown-service.service';
 
@@ -25,17 +26,20 @@ export class CategoriesComponent implements OnInit,OnChanges {
     filter : new FormControl("")
   })
   searchText="";
-  constructor(public drService:DropdownServiceService) { }
+  adduser = new FormControl("",Validators.required);
+  edituser = new FormControl("");
+  p: number = 1;
+  constructor(public drService:DropdownServiceService,public router:Router) { }
   
   ngOnInit(): void {
+    // console.log(this.router)
     this.usersArr = [...this.drService.getUsers()];
     this.FilterForm.get("filter").valueChanges.subscribe((x)=>{
       this.searchText = this.FilterForm.get("filter").value;
     })
-    console.log(this.usersArr)
   }
-  adduser = new FormControl("",Validators.required);
-  edituser = new FormControl("");
+
+  
   openEdit(i:number){
     this.modalAddOpen=false;
     this.modalEditOpen=true;
@@ -45,7 +49,7 @@ export class CategoriesComponent implements OnInit,OnChanges {
   }
   editUser(){
     if(this.modalEditOpen){
-    this.usersArr[this.idx]=this.edituser.value;
+    this.usersArr[this.idx]={user:this.edituser.value};
     this.closeModalEdit();
     }
   }

@@ -26,7 +26,17 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { DialogComponent } from './features/components/details/dialog/dialog.component';
 import { MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {NgxPaginationModule} from 'ngx-pagination'
+import { RouterModule, Routes } from '@angular/router';
+// const routes: Routes = [
+//   { path: '', component: CategoriesComponent },
+//   { path: 'status', component: StatusComponent },
+//   { path: 'details', component: DetailsComponent },
+//   { path: 'list', component: ListComponent },
+//   { path: '**', component: ListComponent },
 
+// ];
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +50,6 @@ import {MatIconModule} from '@angular/material/icon';
   imports: [
     BrowserModule,
     Ng2SearchPipeModule,
-    AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -56,11 +65,15 @@ import {MatIconModule} from '@angular/material/icon';
     HttpClientModule,
     MatDialogModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    MatToolbarModule,
+    NgxPaginationModule,
+    RouterModule,
+    AppRoutingModule,
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
 ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

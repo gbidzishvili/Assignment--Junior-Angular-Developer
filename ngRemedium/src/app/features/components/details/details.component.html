@@ -1,6 +1,25 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span class="page">Details</span>
+    <span class="example-spacer"></span>
+    <nav>
+      <button mat-raised-button class="routing">
+        <a routerLink="/" routerLinkActive="active" ><span class="color-blue">Categories</span></a>
+    </button>
+      <button mat-raised-button class="routing">
+          <a routerLink="/status" routerLinkActive="active" ><span class="color-blue">Status</span></a>
+      </button>
+      <button mat-raised-button class="routing">
+          <a routerLink="/list" routerLinkActive="active" ><span class="color-blue">List</span></a>
+      </button>
+     
+ </nav>
+  </mat-toolbar-row>
+</mat-toolbar>
 <div (newItemEvent)="addItem($event)" class="example-container mat-elevation-z8">
-    <!-- <app-item-output ></app-item-output> -->
-       <button mat-raised-button (click)="openDialog()" class="add-user">Add User</button>
+  <div class="title">
+    <button mat-raised-button (click)="openDialog('add')" class="add-user">Add User</button>
+</div>
        <mat-table #table [dataSource]="dataSource">
          <ng-container matColumnDef="mail">
            <mat-header-cell *matHeaderCellDef> mail </mat-header-cell>
@@ -30,12 +49,20 @@
            <mat-header-cell *matHeaderCellDef> status</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
          </ng-container>
+         <ng-container matColumnDef="actions">
+           <mat-header-cell *matHeaderCellDef> actions</mat-header-cell>
+           <mat-cell *matCellDef="let element">
+             <button mat-icon-button color="primary" class="edit" (click)="openDialog(element)"><mat-icon>edit</mat-icon></button>
+             <button mat-icon-button color="warn" (click)="deleteElement(element.id)"><mat-icon>delete</mat-icon></button>
+             </mat-cell>
+           <!-- <mat-button *matCellDef="let element"> edit </mat-button> -->
+         </ng-container>
          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
          
        </mat-table>
        <mat-paginator #paginator 
-                 [pageSize]="10"
+                 [pageSize]="3"
                  [pageSizeOptions]="[2,4,5, 10, 25]">
        </mat-paginator>
    </div>
