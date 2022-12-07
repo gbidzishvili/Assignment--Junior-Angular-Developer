@@ -6,12 +6,10 @@ import { ListComponent } from './features/components/list/list.component';
 import { StatusComponent } from './features/components/status/status.component';
 
 const routes: Routes = [
-  { path: '', component: CategoriesComponent,pathMatch:"full" },
-  { path: 'status', component: StatusComponent },
-  { path: 'details', component: DetailsComponent },
-  { path: 'list', component: ListComponent },
-  { path: '**', component: ListComponent },
-
+  { path: '', loadChildren: ()=>import('./features/components/categories/categories.module').then(m=>m.CategoriesModule) },
+  { path: 'status', loadChildren: ()=>import('./features/components/status/status.module').then(m=>m.StatusModule) },
+  { path: 'list', loadChildren: ()=>import('./features/components/list/list.module').then(m=>m.ListModule) },
+  { path: 'details', loadChildren: ()=>import('./features/components/details/details.module').then(m=>m.DetailsModule) },
 ];
 
 @NgModule({

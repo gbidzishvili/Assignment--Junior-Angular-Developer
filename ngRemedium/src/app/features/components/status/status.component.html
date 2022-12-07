@@ -20,14 +20,14 @@
 <div class="container" >
     <div class="title">
         <form class="filter" [formGroup] = FilterForm>
-            <label><h2>filter:</h2></label>
+            <label><h2>Filter:</h2></label>
             <input type="text" formControlName="filter" placeholder="Search Here..." onfocus="this.placeholder=''" >
         </form>
     </div>
     
     <div >
         <ul class="table">
-            <li *ngFor="let status of (statusArr | paginate: { itemsPerPage: 5, currentPage: p } | filter:searchText); let i = index">
+            <li *ngFor="let status of (statusArr  | filter:searchText | paginate: { itemsPerPage: 5, currentPage: p }); let i = index">
                 <div class="li-context"><h2 class="status">{{status.status}}</h2>
                 <div class="action">
                 <button class="edit" (click)="openEdit(i)">Edit</button>

@@ -19,7 +19,7 @@ export class DetailsComponent implements OnInit,AfterViewInit {
   names = ["Demavand", "Pradeep", "Ashutosh"]
   list=[
     {
-      mail:"bidzishvili@gmail.com",
+      mail:"bidzishviligiorgi7@gmail.com",
       pn:"12001034395",
       name:"giorgi",
       surname:"bidzishvili",
@@ -182,20 +182,26 @@ export class DetailsComponent implements OnInit,AfterViewInit {
   openDialog(e): void {
     console.log("event: ",e)
     const dialogRef = this.dialog.open(DialogComponent, {
-      width: '40%',
+      width: '35%',
       data:e,
     });
 }
-  addItem(newItem) {
-    this.list = [...newItem];
-    console.log("asdfasdga*****", this.list)
-  }
+  openDialogEdit(e,id): void {
+    console.log("event: ",id)
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '35%',
+      data:{e,id},
+    });
+}
+ 
   deleteElement(index){
+    if(confirm(
+      `Do you want to delete user?`)){
     this.list.splice(index,1)
     this.dataSource = new MatTableDataSource(this.list);
       this.dataSource.paginator = this.paginator
   }
-
+  }
 } 
 
 interface User {

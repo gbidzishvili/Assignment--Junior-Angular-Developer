@@ -95,6 +95,10 @@ button{
     color: red;
     outline:2px solid red;
 }
+.error:focus{
+    
+    outline:2px solid red;
+}
 .error::placeholder{
     color: red;
 }

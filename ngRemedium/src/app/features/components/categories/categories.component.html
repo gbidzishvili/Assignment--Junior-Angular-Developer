@@ -27,7 +27,7 @@
         <ul class="table">
             <!-- <li class="li-context_2"><h2>Users</h2><div class="action_center">
                 <h2 class="edit" >Actions</h2></div></li> -->
-            <li *ngFor="let user of (usersArr | paginate: { itemsPerPage: 5, currentPage: p }|filter:searchText);let i = index">
+            <li *ngFor="let user of (usersArr |filter:searchText | paginate: { itemsPerPage: 4, currentPage: p });let i = index">
                 <div class="li-context"><h2 >{{user.user}}</h2> <div class="action">
                 <button class="edit" (click)="openEdit(i)">Edit</button>
                 <button  class="add" (click)="openAdd(i)">Add</button>

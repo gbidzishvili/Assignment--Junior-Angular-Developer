@@ -3,8 +3,6 @@
     color: #fff;
 }
 .edit{
-    /* color: green;
-     */
      display: flex;
      align-items: center;
      justify-content: center;
@@ -12,7 +10,6 @@
 .delete{
     color: red;
 }
-  
 .example-spacer {
     flex: 1 1 auto;
 }
@@ -32,16 +29,13 @@ a{
 .color-blue{
     color: #5c7cfa;
 }
-
 .routing{
-    
         cursor: pointer;
         border-radius: 7px;
         border:none;
         padding: 0px 14px;
         color: #5c7cfa;
         background-color: #e4e4e4;
-    
 }
 .title{
     /* background-color: #5c7cfa; */
@@ -54,3 +48,30 @@ a{
     font-size: 30px;
     font-weight: 700;
 }
+ .mat-column-mail {
+     flex: 1 0 170px;
+    /* min-width: 180px; */
+   }  
+ .mat-column-pn {
+    flex: 01 0 125px;
+  }
+.mat-column-name {
+    flex: 1 0 75px;
+  }
+.mat-column-surname {
+    flex: 1 0 100px;
+  }
+.mat-column-birthDate {
+    flex: 1 0 95px;
+  }
+.mat-column-category {
+    flex: 1 0 95px;
+  }
+
+  
+  .mat-column-status {
+      flex: 1 0 75px;
+    }
+  .mat-column-actions {
+      flex: 1 0 95px;
+    } 

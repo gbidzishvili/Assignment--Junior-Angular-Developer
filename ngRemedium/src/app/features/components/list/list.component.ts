@@ -1,10 +1,11 @@
 import { Component, OnInit,AfterViewInit, OnChanges, SimpleChanges, ViewChild  } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { filter } from 'rxjs';
 import { DropdownServiceService } from 'src/app/shared/dropdown-service.service';
 import { HttpClient } from '@angular/common/http';
+import { DataSource } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-list',
@@ -16,7 +17,7 @@ export class ListComponent implements OnInit {
   names = ["Demavand", "Pradeep", "Ashutosh"]
   list=[
     {
-      mail:"bidzishvili@gmail.com",
+      mail:"bidzishviligiorgi7@gmail.com",
       pn:"12001034395",
       name:"giorgi",
       surname:"bidzishvili",
@@ -32,7 +33,7 @@ export class ListComponent implements OnInit {
       surname:"chkadua",
       birthDate:"23/10/2013",
       category:"user1",
-      status:"active"
+      status:"Suspended"
 
     },
     {
@@ -42,7 +43,7 @@ export class ListComponent implements OnInit {
       surname:"chkadua_2",
       birthDate:"17/12/2014",
       category:"user1",
-      status:"active"
+      status:"blocked"
 
     },
     {
@@ -52,7 +53,7 @@ export class ListComponent implements OnInit {
       surname:"chichua",
       birthDate:"19/01/2015",
       category:"user1",
-      status:"active"
+      status:"Suspended"
 
     },
     {
@@ -62,7 +63,7 @@ export class ListComponent implements OnInit {
       surname:"chichua",
       birthDate:"19/01/2016",
       category:"user1",
-      status:"active"
+      status:"Suspended"
 
     },
     {
@@ -72,7 +73,7 @@ export class ListComponent implements OnInit {
       surname:"chichua",
       birthDate:"19/01/2017",
       category:"user1",
-      status:"active"
+      status:"blocked"
 
     },
     {
@@ -82,11 +83,13 @@ export class ListComponent implements OnInit {
       surname:"chichua",
       birthDate:"19/01/2018",
       category:"user1",
-      status:"active"
+      status:"blocked"
 
     },
   ]
   displayedColumns = ['mail', 'pn', 'name', 'surname','birthDate','category',  'status'];
+  categoriesArr=["None"];
+  statusArr=["None"];
   dataSource:MatTableDataSource<any>;
   maxDate = new Date(2022,11,30);
   minDate = new Date(2002,0,1)
@@ -95,18 +98,49 @@ export class ListComponent implements OnInit {
   year:number;
   month:number;
   day:number;
-  filterByDates=false;
-  filterByText=false;
   datesForm = new FormGroup({
     startDate : new FormControl(),
     endDate : new FormControl(),
   })
+  filterByDates=false;
+  filterByEmail=false;
+  filterByName=false;
+  filterBySurName=false;
+  filterByCategory=false;
+  filterByStatus=false;
+  categoryControl = new FormControl('',);
+  statusControl = new FormControl('',);
+
   @ViewChild('paginator') paginator:MatPaginator;
   constructor(public drService:DropdownServiceService,public http:HttpClient) {}
   ngOnInit(): void {
+    this.list.forEach(val=>{
+      if(!this.categoriesArr.includes(val.category)){
+        this.categoriesArr.push(val.category)
+        
+      }
+      if(!this.statusArr.includes(val.status)){
+        this.statusArr.push(val.status)
+
+      }
+    })
     this.dataSource = new MatTableDataSource(this.list);
-    
-    this.http.get("http://localhost:3000/api/courses").subscribe(v=>console.log(v));
+    this.categoryControl.valueChanges.subscribe(val=>{
+      if(val==="None")this.dataSource.filter = ""
+      else{
+        this.dataSource.filter = val
+      }
+    }
+    )
+    this.statusControl.valueChanges.subscribe(val=>{
+      if(val==="None")this.dataSource.filter = ""
+      else{
+        this.dataSource.filter = val
+      }
+    }
+      // this.dataSource.filter = val
+    )
+    // this.http.get("http://localhost:3000/api/courses").subscribe(v=>console.log(v));
   }
   startDateChange(e){
     console.log("/*/*/", new Date(e))
@@ -134,27 +168,34 @@ export class ListComponent implements OnInit {
     return this.endDate;
   }
   
-  applyFilter(filterValue: string) {
-    console.log(+filterValue*0===0);
-   if(+filterValue*0!==0 || filterValue==="")
-    {filterValue = filterValue.trim(); // Remove whitespace
+  applyFilterMail(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;}
-    else{
-      console.log("*/" + filterValue);
-      
-      console.log(+filterValue*0===0)
-      console.log("number")
-    }
+    this.dataSource = new MatTableDataSource(this.list);
+    this.dataSource.data = this.dataSource.data.filter(e=>{
+      return e.mail.includes(filterValue)
+    })
   }
-  applyDateFilter(){
-    console.log("**())")
-    console.log(this.startDate)
-    console.log(this.endDate)
+  applyFilterName(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource = new MatTableDataSource(this.list);
+    this.dataSource.data = this.dataSource.data.filter(e=>{
+      return e.name.includes(filterValue)
+    })
+  }
+  applyFilterSurName(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource = new MatTableDataSource(this.list);
+    this.dataSource.data = this.dataSource.data.filter(e=>{
+      return e.surname.includes(filterValue)
+    })
+  }
+  searchByDate(){
     this.dataSource = new MatTableDataSource(this.list);
     this.dataSource.data = this.dataSource.data.filter(e=>
       this.my_date(e.birthDate) >= this.my_date(this.startDate) && this.my_date(e.birthDate) <= this.my_date(this.endDate));
-      console.log(this.dataSource.data)
   }
   
    
@@ -172,11 +213,51 @@ export class ListComponent implements OnInit {
   consolesmth(){
     console.log("smth")
   }
-  openFiltByText(){
-    this.filterByText = !this.filterByText;
+  openFiltByEmail(){
+    this.filterByEmail = !this.filterByEmail;
+    if(!this.filterByEmail){
+      this.dataSource = new MatTableDataSource(this.list)
+      this.dataSource.paginator = this.paginator
+    }
+  }
+  openFiltByName(){
+    this.filterByName = ! this.filterByName;
+    if(!this.filterByName){
+        this.dataSource = new MatTableDataSource(this.list)
+        this.dataSource.paginator = this.paginator
+    }
+  }
+  openFiltBySurName(){
+    this.filterBySurName = ! this.filterBySurName;
+      if(!this.filterBySurName){
+      this.dataSource = new MatTableDataSource(this.list)
+      this.dataSource.paginator = this.paginator
+    }
+    
   }
   openFiltBydates(){
     this.filterByDates = !this.filterByDates;
+    if(!this.filterByStatus){
+      this.dataSource = new MatTableDataSource(this.list)
+      this.dataSource.paginator = this.paginator
+    }
   }
-
+  openFiltByCategory(){
+    this.filterByCategory = !this.filterByCategory;
+    if(!this.filterByStatus){
+      this.categoryControl.setValue("")
+      console.log("rame",this.list)
+      this.dataSource = new MatTableDataSource(this.list)
+      this.dataSource.paginator = this.paginator
+    }
+  }
+  openFiltByStatus(){
+    this.filterByStatus = !this.filterByStatus;
+    if(!this.filterByStatus){
+      this.statusControl.setValue("")
+      console.log("rame",this.list)
+      this.dataSource = new MatTableDataSource(this.list)
+      this.dataSource.paginator = this.paginator
+    }
+  }
 }

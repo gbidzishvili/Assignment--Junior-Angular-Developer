@@ -16,43 +16,43 @@
  </nav>
   </mat-toolbar-row>
 </mat-toolbar>
-<div (newItemEvent)="addItem($event)" class="example-container mat-elevation-z8">
+<div  class="example-container mat-elevation-z8">
   <div class="title">
     <button mat-raised-button (click)="openDialog('add')" class="add-user">Add User</button>
 </div>
        <mat-table #table [dataSource]="dataSource">
          <ng-container matColumnDef="mail">
-           <mat-header-cell *matHeaderCellDef> mail </mat-header-cell>
+           <mat-header-cell *matHeaderCellDef>Email </mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.mail}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="pn">
-           <mat-header-cell *matHeaderCellDef> pn </mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> PN</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.pn}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="name">
-           <mat-header-cell *matHeaderCellDef> name</mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="surname">
-           <mat-header-cell *matHeaderCellDef> surname</mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> SurName</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.surname}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="birthDate">
-           <mat-header-cell *matHeaderCellDef> birthDate</mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> BirthDate</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.birthDate}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="category">
-           <mat-header-cell *matHeaderCellDef> category</mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> Category</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="status">
-           <mat-header-cell *matHeaderCellDef> status</mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> Status</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="actions">
-           <mat-header-cell *matHeaderCellDef> actions</mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
            <mat-cell *matCellDef="let element">
-             <button mat-icon-button color="primary" class="edit" (click)="openDialog(element)"><mat-icon>edit</mat-icon></button>
+             <button mat-icon-button color="primary" class="edit" (click)="openDialogEdit(element,element.index)"><mat-icon>edit</mat-icon></button>
              <button mat-icon-button color="warn" (click)="deleteElement(element.id)"><mat-icon>delete</mat-icon></button>
              </mat-cell>
            <!-- <mat-button *matCellDef="let element"> edit </mat-button> -->

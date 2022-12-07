@@ -1,3 +1,4 @@
+
 .example-container {
     display: flex;
     flex-direction: column;
@@ -12,6 +13,17 @@
     padding: 10px;
 
   }
+  .filter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  label.email{
+    width: 108px;
+  }
+ 
   button{
     cursor: pointer;
     border-radius: 7px;
@@ -44,15 +56,21 @@
     color: rgb(136, 136, 136);
   }
   .choose_Date{
-    padding: 7px;
-    /* border-radius: 8px; */
+    padding: 0px 10.5px;
+    height: 47px;
+    color: rgba(0,0,0,0.8);
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  .choose_Date:focus{
+    outline: 2px solid #673ab7;
   }
   .search{
     cursor:pointer;
   }
   .example-header {
     min-height: 64px;
-    /* max-width: 200px; */
     padding: 10px;
   }
   
@@ -61,7 +79,6 @@
     width: 100%;
   }
   .date{
-    /* min-width: 150px; */
     max-width: 150px;
   }
   .mat-table {
@@ -90,3 +107,9 @@ a{
 button{
   padding: 0px 14px;
 }
+.mat-form-field-wrapper {
+  padding-bottom: 0px ;
+}
+/* .date{
+
+} */

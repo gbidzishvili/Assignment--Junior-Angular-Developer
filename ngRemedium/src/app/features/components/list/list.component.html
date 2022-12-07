@@ -1,7 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <!-- <button mat-raised-button class="add-user">Users List</button> -->
-    <span class="page">Users List</span>
+    <span class="title font26px">Users List</span>
 
     <span class="example-spacer"></span>
     <nav>
@@ -19,12 +18,15 @@
 </mat-toolbar>
 <div class="example-container mat-elevation-z8">
     <div class="filters">
-        <span>Filter by:</span>
+        <span class="font18px">Filter by:</span>
         <button (click)="openFiltBydates()" class="buttons"[className]="filterByDates ? 'buttons_2' : 'buttons'">dates</button>
-        <button (click)="openFiltByText()" class="buttons"[className]="filterByText ? 'buttons_2' : 'buttons'">strings</button>
+        <button (click)="openFiltByEmail()" class="buttons"[className]="filterByEmail ? 'buttons_2' : 'buttons'">Email</button>
+        <button (click)="openFiltByName()" class="buttons"[className]="filterByName ? 'buttons_2' : 'buttons'">Name</button>
+        <button (click)="openFiltBySurName()" class="buttons"[className]="filterBySurName ? 'buttons_2' : 'buttons'">SurName</button>
+        <button (click)="openFiltByCategory()" class="buttons"[className]="filterByCategory ? 'buttons_2' : 'buttons'">Category</button>
+        <button (click)="openFiltByStatus()" class="buttons"[className]="filterByStatus ? 'buttons_2' : 'buttons'">Status</button>
     </div>
     <form class="dates"[formGroup]="datesForm" *ngIf="filterByDates">
-        <label>Filter by date:</label>
          <input type="text"
                placeholder="startDate"
                class="form-control choose_Date"
@@ -38,53 +40,85 @@
                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY',  returnFocusToInput: true }"
                (bsValueChange)="endDateChange($event)">
        
-               <span class="material-icons search" (click)="applyDateFilter()">
+               <span class="material-icons search" (click)="searchByDate()">
                  search
                  </span>
       
     </form >
-       <div class="example-header" *ngIf="filterByText">
-           <mat-form-field>
-             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-           </mat-form-field>
-         </div>
+       <div class="example-header" *ngIf="filterByEmail">
+        <div class="filter">
+             <mat-form-field >
+               <input matInput (keyup)="applyFilterMail($event.target.value)" placeholder="Filter By Email">
+             </mat-form-field>
+           </div>
+        </div>
+        <div class="example-header" *ngIf="filterByName">
+        <div class="filter">
+             <mat-form-field >
+               <input matInput (keyup)="applyFilterName($event.target.value)" placeholder="Filter By Name">
+             </mat-form-field>
+           </div>
+        </div>
+        <div class="example-header" *ngIf="filterBySurName">
+        <div class="filter">
+             <mat-form-field >
+               <input matInput (keyup)="applyFilterSurName($event.target.value)" placeholder="Filter By SurName">
+             </mat-form-field>
+           </div>
+        </div>
+        <div class="example-header" *ngIf="filterByCategory">
+        <div class="filter">
+             <mat-form-field >
+                <mat-select placeholder="Choose Category" [formControl]="categoryControl">
+                    <mat-option *ngFor="let cat of categoriesArr" [value]="cat">
+                       {{cat}} 
+                    </mat-option>
+                </mat-select>
+             </mat-form-field>
+           </div>
+        </div>
+        <div class="example-header" *ngIf="filterByStatus">
+        <div class="filter">
+             <mat-form-field >
+                <mat-select placeholder="Choose Status" [formControl]="statusControl">
+                    <mat-option *ngFor="let status of statusArr" [value]="status">
+                       {{status}} 
+                    </mat-option>
+                </mat-select>
+             </mat-form-field>
+           </div>
+        </div>
        <mat-table #table [dataSource]="dataSource">
    
          <ng-container matColumnDef="mail">
-           <mat-header-cell *matHeaderCellDef> mail </mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.mail}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="pn">
-           <mat-header-cell *matHeaderCellDef> pn </mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> PN </mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.pn}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="name">
-           <mat-header-cell *matHeaderCellDef> name</mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="surname">
-           <mat-header-cell *matHeaderCellDef> surname</mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> SurName</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.surname}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="birthDate">
-           <mat-header-cell *matHeaderCellDef> birthDate</mat-header-cell>
+           <mat-header-cell *matHeaderCellDef> BirthDate</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.birthDate}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="category">
-           <mat-header-cell *matHeaderCellDef> category</mat-header-cell>
+           <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.category}} </mat-cell>
          </ng-container>
          <ng-container matColumnDef="status">
-           <mat-header-cell *matHeaderCellDef> status</mat-header-cell>
+           <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
            <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
          </ng-container>
-         <!-- <ng-container matColumnDef="actions">
-          <mat-header-cell  *matHeaderCellDef > Actions </mat-header-cell>
-          <mat-cell *matCellDef="let row" >
-               <button mat-button (click)="openEditTable($event)" >Edit</button>
-          </mat-cell>
-        </ng-container> -->
-     
+
          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
          

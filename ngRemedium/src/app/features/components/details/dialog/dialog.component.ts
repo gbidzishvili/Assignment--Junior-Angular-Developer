@@ -128,17 +128,11 @@ export class DialogComponent implements OnInit {
       this.title="Edit User";
       this.editing=true;
       // this.newData = [...this.data]
-     for(let i in this.data){
-        this.userForm.get(`${i}`).setValue(this.data[i])
+     for(let i in this.data.e){
+        this.userForm.get(`${i}`).setValue(this.data.e[i])
        console.log("key: ",i,this.data[i])
      }
     }
-    // this.drService.list.next(this.list)
-    // this.drService.list.subscribe((list:User[])=>{
-    //   this.list = [...list];
-    // }
-    // )
-    
     this.list.forEach(c=>this.categoriesArr.push(c.category))
     this.list.forEach(c=>this.statusArr.push(c.status))
   }
@@ -175,13 +169,13 @@ export class DialogComponent implements OnInit {
     console.log(":::))",this.sendingData)
     this.list.push(this.sendingData)
     this.drService.list.next(this.list)
-    console.log("list",this.list)
+    // console.log("list",this.list)
     }else{
       this.updateForm()
     }
   }
   updateForm(){
-
+    console.log("data:",this.data,this.userForm.value)
   }
   isValid(){
     if(this.userForm.valid){
