@@ -1,3 +1,5 @@
+import { JsonPipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { FactoryTarget } from '@angular/compiler';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -28,35 +30,58 @@ export class CategoriesComponent implements OnInit,OnChanges {
   searchText="";
   adduser = new FormControl("",Validators.required);
   edituser = new FormControl("");
+  z=4;
   p: number = 1;
-  constructor(public drService:DropdownServiceService,public router:Router) { }
+  endpoint='categories'
+  constructor(public drService:DropdownServiceService,public router:Router,public http:HttpClient) { }
   
   ngOnInit(): void {
-    // console.log(this.router)
-    this.usersArr = [...this.drService.getUsers()];
+    
+    
+    // this.usersArr = [...this.drService.getUsers()];
     this.FilterForm.get("filter").valueChanges.subscribe((x)=>{
       this.searchText = this.FilterForm.get("filter").value;
     })
+    this.drService.getData(this.endpoint).subscribe(v=>this.getValues(v))
+    // this.p= (this.z/this.usersArr.length)+1;
+    // console.log(this.z,this.usersArr.length+1,this.p)
+   }
+  getValues(v){
+    console.log("v",v)
+    let i = v;
+    v.forEach(v=>{
+      console.log("vaax",v)
+      this.usersArr.push(v)
+    })
   }
-
-  
+  // getTasks(v){
+  //   console.log("v",v.toString())
+  //   let i = v;
+  //   localStorage.setItem("val",JSON.stringify(v))
+  //   console.log("parserd",JSON.parse(localStorage.getItem("val")))
+  //   // this.usersArr = JSON.parse(localStorage.getItem("val"));
+  //   JSON.parse(localStorage.getItem("val")).forEach(v=>{
+  //     console.log("vaax",v.category)
+  //     this.usersArr.push(v.category)
+  //   })
+  // }
   openEdit(i:number){
+    console.log("idx",i)
     this.modalAddOpen=false;
     this.modalEditOpen=true;
     this.idx=i;
-    this.user = this.usersArr[i]
-    this.edituser.setValue(this.usersArr[this.idx].user)
+    this.user = this.usersArr[i];
+    this.edituser.setValue(this.usersArr[this.idx].user);
   }
   editUser(){
     if(this.modalEditOpen){
-    this.usersArr[this.idx]={user:this.edituser.value};
-    this.closeModalEdit();
+      this.usersArr[this.idx]={user:this.edituser.value};
+      this.drService.putCategories({user:this.edituser.value,id:this.idx}).subscribe();
+      this.closeModalEdit();
     }
   }
   openAdd(i:number){
-    if(this.adduser.valid){
-      this.showError = false;
-    }
+    console.log("idx",i)
     this.modalEditOpen=false;
     this.modalAddOpen=true;
     this.idx=i;
@@ -64,8 +89,11 @@ export class CategoriesComponent implements OnInit,OnChanges {
   addNewUser(){
     if(this.adduser.valid){
         this.addIsDisabled=false;
-        this.drService.usersArr.push({user:this.adduser.value});
-        this.usersArr = [...this.drService.getUsers()];
+        this.usersArr.push({user:this.adduser.value});
+        this.drService.postCategories({
+          user: this.adduser.value,
+        }).subscribe()
+        console.log("arr",this.usersArr)
         this.modalAddOpen = false;
         this.adduser.setValue("");
     }
@@ -76,12 +104,15 @@ export class CategoriesComponent implements OnInit,OnChanges {
     }
   }
   delete(i:number){
+    console.log("idx",i)
+
     this.modalDeleteOpen=true;
     this.user = this.usersArr[i].user;
     this.idx = i;
   }
   DeleteNewUser(){
     this.usersArr.splice(this.idx,1);
+    this.drService.deleteCategories(this.endpoint,this.idx).subscribe()
     this.modalDeleteOpen = false;
   }
   closeModalEdit(){

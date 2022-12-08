@@ -36,13 +36,13 @@
             <mat-form-field class="category">
               <mat-label>Category</mat-label>
               <mat-select formControlName="category" >
-                <mat-option *ngFor="let item of categoriesArr" value="{{item}}">{{item}}</mat-option>
+                <mat-option *ngFor="let item of categoriesArr" value="{{item.user}}">{{item.user}}</mat-option>
               </mat-select>
             </mat-form-field>
             <mat-form-field class="status">
               <mat-label>Status</mat-label>
               <mat-select formControlName="status">
-                <mat-option *ngFor="let status of statusArr" value="{{status}}">{{status}}</mat-option>
+                <mat-option *ngFor="let status of statusArr" value="{{status.status}}">{{status.status}}</mat-option>
               </mat-select>
             </mat-form-field>
         </div>

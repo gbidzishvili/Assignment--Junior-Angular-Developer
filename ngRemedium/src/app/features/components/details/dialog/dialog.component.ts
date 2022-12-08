@@ -12,76 +12,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export class DialogComponent implements OnInit {
   list=[
-    {
-      mail:"bidzishvili@gmail.com",
-      pn:"12001034395",
-      name:"giorgi",
-      surname:"bidzishvili",
-      birthDate:"15/05/2012",
-      category:"VIP User",
-      status:"active"
-
-    },
-    {
-      mail:"chkadua@gmail.com",
-      pn:"17054305678",
-      name:"nata",
-      surname:"chkadua",
-      birthDate:"23/10/2013",
-      category:"user1",
-      status:"active"
-
-    },
-    {
-      mail:"ckhadadze@gmail.com",
-      pn:"19086243187",
-      name:"vinme",
-      surname:"chkadua_2",
-      birthDate:"17/12/2014",
-      category:"user1",
-      status:"active"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"01027077710",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2015",
-      category:"user1",
-      status:"active"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"44524560724",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2016",
-      category:"user1",
-      status:"active"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"44344322452",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2017",
-      category:"user1",
-      status:"active"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"14545670012",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2018",
-      category:"user1",
-      status:"active"
-
-    },
+    
   ]
   categoriesArr:string[]=[]
   statusArr:string[]=[]
@@ -114,11 +45,15 @@ export class DialogComponent implements OnInit {
     category:"",
     status:""
   };
+  endpoint="getList"
   @Output() newItemEvent = new EventEmitter();
   constructor(public drService:DropdownServiceService,
     @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit(): void {
+    this.drService.getListArrays(this.endpoint).subscribe(v=>this.getValues(v))
+    this.drService.getData(this.endpoint).subscribe(v=>this.getList(v))
+
     if(this.data==="add"){
       this.action="Save";
       this.title="Add New User";
@@ -133,10 +68,34 @@ export class DialogComponent implements OnInit {
        console.log("key: ",i,this.data[i])
      }
     }
-    this.list.forEach(c=>this.categoriesArr.push(c.category))
-    this.list.forEach(c=>this.statusArr.push(c.status))
+    // this.list.forEach(c=>this.categoriesArr.push(c.category))
+    // this.list.forEach(c=>this.statusArr.push(c.status))
   }
- 
+  getList(v){
+    console.log("v: ",v)
+    this.list = [...v]
+  }
+  getValues(v){
+    console.log("::1",this.statusArr,this.categoriesArr)
+    const addArrCateg=[]
+    const addArrStatus=[]
+    v.categories.forEach(val=>{
+      if(!addArrCateg.includes(val.user)){
+        this.categoriesArr.push(val)
+      }
+        addArrCateg.push(val.user)
+      }
+  )
+    v.statusArr.forEach(val=>{
+      // console.log(!addArrStatus.includes(val.status),addArrStatus,val.status)
+      if(!addArrStatus.includes(val.status)){
+        this.statusArr.push(val)
+      }
+      addArrStatus.push(val.status)
+  }
+  )
+    console.log("::2",this.statusArr,this.categoriesArr)
+  }
   checkIfValidvalue(value){
       if(this.userForm.get(`${value.getAttribute('formControlName')}`).invalid && this.userForm.get(`${value.getAttribute('formControlName')}`).touched){
      
@@ -161,14 +120,27 @@ export class DialogComponent implements OnInit {
     }
     this.birthDate = (this.day)+"/"+(this.month)+"/"+(this.year)
     this.userForm.value.birthDate = this.birthDate;
-    
+    console.log(this.userForm.value["category"])
+    // console.log(this.userForm.value["category"].user)
+    // console.log(this.userForm.value["category"])
     for(let i in this.userForm.value){
-     this.sendingData[i] = this.userForm.value[i];
-     console.log("sendingData",this.sendingData,this.userForm.value[i],i)
+      // if(i==="category"){
+      //   console.log("category",this.userForm.value[i].user)
+      //   this.sendingData[i] = this.userForm.value[i];
+      // }
+      // else if(i==="status"){
+      //    console.log("status",this.userForm.value[i].status)
+      //    this.sendingData[i] = this.userForm.value[i];
+      // }
+      // else{
+        this.sendingData[i] = this.userForm.value[i];
+      // }
     }
     console.log(":::))",this.sendingData)
     this.list.push(this.sendingData)
-    this.drService.list.next(this.list)
+    this.drService.postDetails(this.sendingData).subscribe()
+    this.drService.isSaved.next(true);
+    // this.drService.list.next(this.list)
     // console.log("list",this.list)
     }else{
       this.updateForm()

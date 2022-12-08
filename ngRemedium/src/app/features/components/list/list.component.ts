@@ -14,82 +14,13 @@ import { DataSource } from '@angular/cdk/collections';
 })
 export class ListComponent implements OnInit {
  
-  names = ["Demavand", "Pradeep", "Ashutosh"]
+  // names = ["Demavand", "Pradeep", "Ashutosh"]
   list=[
-    {
-      mail:"bidzishviligiorgi7@gmail.com",
-      pn:"12001034395",
-      name:"giorgi",
-      surname:"bidzishvili",
-      birthDate:"15/05/2012",
-      category:"VIP User",
-      status:"active"
-
-    },
-    {
-      mail:"chkadua@gmail.com",
-      pn:"17054305678",
-      name:"nata",
-      surname:"chkadua",
-      birthDate:"23/10/2013",
-      category:"user1",
-      status:"Suspended"
-
-    },
-    {
-      mail:"ckhadadze@gmail.com",
-      pn:"19086243187",
-      name:"vinme",
-      surname:"chkadua_2",
-      birthDate:"17/12/2014",
-      category:"user1",
-      status:"blocked"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"01027077710",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2015",
-      category:"user1",
-      status:"Suspended"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"44524560724",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2016",
-      category:"user1",
-      status:"Suspended"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"44344322452",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2017",
-      category:"user1",
-      status:"blocked"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"14545670012",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2018",
-      category:"user1",
-      status:"blocked"
-
-    },
+   
   ]
   displayedColumns = ['mail', 'pn', 'name', 'surname','birthDate','category',  'status'];
-  categoriesArr=["None"];
-  statusArr=["None"];
+  categoriesArr=[{user: 'None'}];
+  statusArr=[{status: 'None'}];
   dataSource:MatTableDataSource<any>;
   maxDate = new Date(2022,11,30);
   minDate = new Date(2002,0,1)
@@ -110,37 +41,53 @@ export class ListComponent implements OnInit {
   filterByStatus=false;
   categoryControl = new FormControl('',);
   statusControl = new FormControl('',);
-
+  endpoint="getList"
   @ViewChild('paginator') paginator:MatPaginator;
   constructor(public drService:DropdownServiceService,public http:HttpClient) {}
   ngOnInit(): void {
-    this.list.forEach(val=>{
-      if(!this.categoriesArr.includes(val.category)){
-        this.categoriesArr.push(val.category)
-        
-      }
-      if(!this.statusArr.includes(val.status)){
-        this.statusArr.push(val.status)
-
-      }
-    })
+    this.drService.getListArrays(this.endpoint).subscribe(v=>this.getValues(v))
+    this.drService.getData(this.endpoint).subscribe(v=>this.getList(v))
     this.dataSource = new MatTableDataSource(this.list);
     this.categoryControl.valueChanges.subscribe(val=>{
-      if(val==="None")this.dataSource.filter = ""
+      console.log("val: ",val)
+      if(val["user"]==="None")this.dataSource.filter = ""
       else{
-        this.dataSource.filter = val
+        this.dataSource.filter = val["user"]
       }
     }
     )
     this.statusControl.valueChanges.subscribe(val=>{
-      if(val==="None")this.dataSource.filter = ""
+      if(val["status"] ==="None")this.dataSource.filter = ""
       else{
-        this.dataSource.filter = val
+        this.dataSource.filter = val["status"]
       }
-    }
-      // this.dataSource.filter = val
-    )
-    // this.http.get("http://localhost:3000/api/courses").subscribe(v=>console.log(v));
+    })
+  }
+  getList(v){
+    console.log("v: ",v)
+    this.list = [...v]
+    this.dataSource = new MatTableDataSource(this.list);
+  }
+  getValues(v){
+    console.log("::1",this.statusArr,this.categoriesArr)
+    const addArrCateg=[]
+    const addArrStatus=[]
+    v.categories.forEach(val=>{
+      if(!addArrCateg.includes(val.user)){
+        this.categoriesArr.push(val)
+      }
+        addArrCateg.push(val.user)
+      }
+  )
+    v.statusArr.forEach(val=>{
+      // console.log(!addArrStatus.includes(val.status),addArrStatus,val.status)
+      if(!addArrStatus.includes(val.status)){
+        this.statusArr.push(val)
+      }
+      addArrStatus.push(val.status)
+  }
+  )
+    console.log("::2",this.statusArr,this.categoriesArr)
   }
   startDateChange(e){
     console.log("/*/*/", new Date(e))
@@ -197,8 +144,6 @@ export class ListComponent implements OnInit {
     this.dataSource.data = this.dataSource.data.filter(e=>
       this.my_date(e.birthDate) >= this.my_date(this.startDate) && this.my_date(e.birthDate) <= this.my_date(this.endDate));
   }
-  
-   
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
@@ -207,11 +152,7 @@ export class ListComponent implements OnInit {
     var day = date_components[0];
     var month = date_components[1];
     var year = date_components[2];
-    // console.log(new Date(year, month -1, day).getTime())
     return new Date(year, month -1, day).getTime();
-  }
-  consolesmth(){
-    console.log("smth")
   }
   openFiltByEmail(){
     this.filterByEmail = !this.filterByEmail;
@@ -244,9 +185,8 @@ export class ListComponent implements OnInit {
   }
   openFiltByCategory(){
     this.filterByCategory = !this.filterByCategory;
-    if(!this.filterByStatus){
+    if(!this.filterByCategory){
       this.categoryControl.setValue("")
-      console.log("rame",this.list)
       this.dataSource = new MatTableDataSource(this.list)
       this.dataSource.paginator = this.paginator
     }
@@ -255,7 +195,7 @@ export class ListComponent implements OnInit {
     this.filterByStatus = !this.filterByStatus;
     if(!this.filterByStatus){
       this.statusControl.setValue("")
-      console.log("rame",this.list)
+      console.log(this.list)
       this.dataSource = new MatTableDataSource(this.list)
       this.dataSource.paginator = this.paginator
     }

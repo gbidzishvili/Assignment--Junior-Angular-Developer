@@ -26,31 +26,41 @@ export class StatusComponent implements OnInit,OnChanges {
   })
   addstatus = new FormControl("",Validators.required);
   editstatus = new FormControl("");
+  z=4;
   p: number = 1;
+  endpoint='status'
   constructor(public drService:DropdownServiceService) {}
   ngOnInit(): void {
-    this.statusArr = [...this.drService.getStatus()];
+    // this.statusArr = [...this.drService.getStatus()];
     this.FilterForm.get("filter").valueChanges.subscribe((x)=>{
       this.searchText = this.FilterForm.get("filter").value;
     })
-
+    this.drService.getData(this.endpoint).subscribe(v=>this.getValues(v))
+    // this.p= (this.z/this.usersArr.length)+1;
+    // console.log(this.z,this.usersArr.length+1,this.p)
+   }
+  getValues(v){
+    console.log("v",v)
+    let i = v;
+    v.forEach(v=>{
+      console.log("vaax",v)
+      this.statusArr.push(v)
+    })
   }
   openEdit(i:number){
+    console.log("idx",i)
     this.modalAddOpen=false;
     this.modalEditOpen=true;
     this.idx=i;
-    this.status = this.statusArr[i].status;
-    this.editstatus.setValue(this.statusArr[this.idx].status)
+    this.status = this.statusArr[i];
+    this.editstatus.setValue(this.statusArr[i].status)
   }
   editStatus(){
     this.statusArr[this.idx]={status:this.editstatus.value};
-    console.log("statusArr",this.statusArr);
-    this.closeModalEdit();
+      this.drService.putStatus({status:this.editstatus.value,id:this.idx}).subscribe();
+      this.closeModalEdit();
   }
   openAdd(i:number){
-    if(this.addstatus.valid){
-      this.showError = false;
-    }
     this.modalEditOpen=false;
     this.modalAddOpen=true;
     this.idx=i;
@@ -58,10 +68,10 @@ export class StatusComponent implements OnInit,OnChanges {
   addNewStatus(){
     if(this.addstatus.valid){
         this.addIsDisabled=false;
-        this.drService.statusArr.push({status: this.addstatus.value});
-        this.statusArr = [...this.drService.getStatus()];
+        this.statusArr.push({status: this.addstatus.value});
+        this.drService.postStatus({status:this.addstatus.value}).subscribe();
+        this.editstatus.setValue("");
         this.modalAddOpen = false;
-        this.addstatus.setValue("");
     }
   }
   error(){
@@ -76,6 +86,7 @@ export class StatusComponent implements OnInit,OnChanges {
   }
   DeleteNewStatus(){
     this.statusArr.splice(this.idx,1);
+    this.drService.deleteCategories(this.endpoint,this.idx).subscribe()
     this.modalDeleteOpen = false;
   }
   closeModalEdit(){
@@ -89,9 +100,6 @@ export class StatusComponent implements OnInit,OnChanges {
   }
   
   ngOnChanges(changes: SimpleChanges): void {
-    // this.searchText = this.FilterForm.get("filter").value;
-    // console.log("raa***")
-    
   }
   
 

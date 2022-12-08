@@ -27,12 +27,12 @@
     
     <div >
         <ul class="table">
-            <li *ngFor="let status of (statusArr  | filter:searchText | paginate: { itemsPerPage: 5, currentPage: p }); let i = index">
+            <li *ngFor="let status of (statusArr  | filter:searchText | paginate: { itemsPerPage: z, currentPage: p }); let i = index">
                 <div class="li-context"><h2 class="status">{{status.status}}</h2>
                 <div class="action">
-                <button class="edit" (click)="openEdit(i)">Edit</button>
-                <button  class="add" (click)="openAdd(i)">Add</button>
-                <button  class="delete" (click)="delete(i)">Delete</button>
+                <button class="edit" (click)="openEdit(i+((z)*(p-1)))">Edit</button>
+                <button  class="add" (click)="openAdd(i+((z)*(p-1)))">Add</button>
+                <button  class="delete" (click)="delete(i+((z)*(p-1)))">Delete</button>
                 </div>
                 </div>
             </li>

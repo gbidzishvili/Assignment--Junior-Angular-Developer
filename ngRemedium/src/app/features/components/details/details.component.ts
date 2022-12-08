@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnChanges, OnInit, SimpleChanges, ViewChild }
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { filter } from 'rxjs';
+import { filter, Subject } from 'rxjs';
 import { DropdownServiceService } from 'src/app/shared/dropdown-service.service';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import { DialogComponent } from './dialog/dialog.component';
@@ -15,79 +15,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./details.component.css']
 })
 
-export class DetailsComponent implements OnInit,AfterViewInit {
+export class DetailsComponent implements OnInit {
   names = ["Demavand", "Pradeep", "Ashutosh"]
   list=[
-    {
-      mail:"bidzishviligiorgi7@gmail.com",
-      pn:"12001034395",
-      name:"giorgi",
-      surname:"bidzishvili",
-      birthDate:"15/05/2012",
-      category:"VIP User",
-      status:"active"
-
-    },
-    {
-      mail:"chkadua@gmail.com",
-      pn:"17054305678",
-      name:"nata",
-      surname:"chkadua",
-      birthDate:"23/10/2013",
-      category:"user1",
-      status:"active"
-
-    },
-    {
-      mail:"ckhadadze@gmail.com",
-      pn:"19086243187",
-      name:"vinme",
-      surname:"chkadua_2",
-      birthDate:"17/12/2014",
-      category:"user1",
-      status:"active"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"01027077710",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2015",
-      category:"user1",
-      status:"active"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"44524560724",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2016",
-      category:"user1",
-      status:"active"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"44344322452",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2017",
-      category:"user1",
-      status:"active"
-
-    },
-    {
-      mail:"z_chichua@gmail.com",
-      pn:"14545670012",
-      name:"zura",
-      surname:"chichua",
-      birthDate:"19/01/2018",
-      category:"user1",
-      status:"active"
-
-    },
+   
   ]
   displayedColumns = ['mail', 'pn', 'name', 'surname','birthDate','category',  'status','actions'];
   dataSource:MatTableDataSource<any>;
@@ -104,17 +35,44 @@ export class DetailsComponent implements OnInit,AfterViewInit {
     startDate : new FormControl(),
     endDate : new FormControl(),
   })
+  endpoint="details"
+
   @ViewChild('paginator') paginator:MatPaginator;
   constructor(public drService:DropdownServiceService,public dialog:MatDialog,public router:Router) {}
+
   ngOnInit(): void {
-    this.drService.list.subscribe((value:User[])=>{
-      console.log("details value");
-      console.log(value)
-      this.list = value
-      this.dataSource = new MatTableDataSource(this.list);
-      this.dataSource.paginator = this.paginator
-      })
+    this.drService.getData(this.endpoint).subscribe(v=>this.getList(v))
+    this.drService.isSaved.subscribe(v=>{
+      if(v){
+        this.drService.getData(this.endpoint).subscribe(v=>this.getList(v));
+        this.drService.isSaved.next(false);
+      }
+    })
+  }
+  openDialog(e): void {
+    console.log("event: ",e)
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '35%',
+      data:e,
+    }).afterClosed().subscribe(v=>
+      this.drService.getData(this.endpoint).subscribe(v=>this.getList(v))
+    );
+}
+  openDialogEdit(e,id): void {
+    console.log("event: ",id)
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '35%',
+      data:{e,id},
+    });
+}
+ 
+  getList(v){
+    console.log("v: ",v)
+    this.list = [...v]
     this.dataSource = new MatTableDataSource(this.list);
+    this.dataSource.paginator = this.paginator;
+    console.log("paginator:",this.paginator)
+    
   }
   startDateChange(e){
     console.log("/*/*/", new Date(e))
@@ -165,9 +123,9 @@ export class DetailsComponent implements OnInit,AfterViewInit {
   }
   
    
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
+  // ngAfterViewInit() {
+  //   this.dataSource.paginator = this.paginator;
+  // }
   my_date(date_string) {    
     var date_components = date_string.split("/");
     var day = date_components[0];
@@ -179,21 +137,7 @@ export class DetailsComponent implements OnInit,AfterViewInit {
   consolesmth(){
     console.log("smth")
   }
-  openDialog(e): void {
-    console.log("event: ",e)
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '35%',
-      data:e,
-    });
-}
-  openDialogEdit(e,id): void {
-    console.log("event: ",id)
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '35%',
-      data:{e,id},
-    });
-}
- 
+
   deleteElement(index){
     if(confirm(
       `Do you want to delete user?`)){
@@ -204,7 +148,7 @@ export class DetailsComponent implements OnInit,AfterViewInit {
   }
 } 
 
-interface User {
+export interface User {
   mail:string,
   pn:string,
   name:string,
