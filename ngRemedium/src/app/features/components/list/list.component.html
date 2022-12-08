@@ -18,7 +18,7 @@
 </mat-toolbar>
 <div class="example-container mat-elevation-z8">
     <div class="filters">
-        <span class="font18px">Filter by:</span>
+        <span class="color-green">Filter by:</span>
         <button (click)="openFiltBydates()" class="buttons"[className]="filterByDates ? 'buttons_2' : 'buttons'">dates</button>
         <button (click)="openFiltByEmail()" class="buttons"[className]="filterByEmail ? 'buttons_2' : 'buttons'">Email</button>
         <button (click)="openFiltByName()" class="buttons"[className]="filterByName ? 'buttons_2' : 'buttons'">Name</button>
@@ -124,7 +124,7 @@
          
        </mat-table>
        <mat-paginator #paginator 
-                 [pageSize]="10"
+                 [pageSize]="6"
                  [pageSizeOptions]="[2,4,5, 10, 25]">
        </mat-paginator>
    </div>

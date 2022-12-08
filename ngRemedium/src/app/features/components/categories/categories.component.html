@@ -40,7 +40,7 @@
     <div class="modal" *ngIf="modalEditOpen"  >
         <div class="background" (click)="closeModalEdit()"></div>
         <div class="modal-content" >
-            <h3>Edit User</h3>
+            <h2 class="edit-user">Edit User</h2>
             <input type="text" [formControl]="edituser" (keyup.enter)="editUser()">
             <div class="buttons">
                 <button (click)="editUser()" >Edit</button>
@@ -51,7 +51,7 @@
     <div class="modal" *ngIf="modalAddOpen" >
         <div class="background" (click)="closeModaladd()"></div>
         <div class="modal-content" >
-            <h3>Add User</h3>
+            <h2 class="edit-user">Add User</h2>
                 <input type="text" [formControl]="adduser" (keyup.enter)="addNewUser()"  >
                 <div *ngIf="showError">Enter User Categorie</div>
                 <div class="buttons">
@@ -63,7 +63,7 @@
     <div class="modal" *ngIf="modalDeleteOpen" >
         <div class="background" (click)="closeModalDelete()"></div>
         <div class="modal-content" >
-            <h3>Do you want to delete <em>{{user}}?</em></h3>
+            <h2>Do you want to delete <em>{{user}}?</em></h2>
             <div class="buttons">
                 <button (click)="DeleteNewUser()" >Delete</button>
                 <button (click)="closeModalDelete()">Close</button>
