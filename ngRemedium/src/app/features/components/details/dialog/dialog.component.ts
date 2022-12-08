@@ -114,11 +114,6 @@ export class DialogComponent implements OnInit {
     
   }
   addUser(){
-    for(let i in this.userForm.value){
-
-      this.sendingData[i] = this.userForm.value[i];
-  }
-    if(this.data==="add"){
     this.year =new Date(this.userForm.value.birthDate).getFullYear();
     this.month =new Date(this.userForm.value.birthDate).getMonth()+1;
     this.day =new Date(this.userForm.value.birthDate).getDate();
@@ -127,9 +122,11 @@ export class DialogComponent implements OnInit {
     }
     this.birthDate = (this.day)+"/"+(this.month)+"/"+(this.year)
     this.userForm.value.birthDate = this.birthDate;
-    console.log(this.userForm.value["category"])
-   
-    console.log(":::))",this.sendingData)
+    for(let i in this.userForm.value){
+      this.sendingData[i] = this.userForm.value[i];
+  }
+    if(this.data==="add"){
+    
     this.list.push(this.sendingData)
     this.drService.postDetails(this.sendingData).subscribe()
     
@@ -138,6 +135,14 @@ export class DialogComponent implements OnInit {
     }
   }
   updateForm(data,i:number){
+    this.year =new Date(this.userForm.value.birthDate).getFullYear();
+    this.month =new Date(this.userForm.value.birthDate).getMonth()+1;
+    this.day =new Date(this.userForm.value.birthDate).getDate();
+    if(this.day<10){
+      this.day = "0"+ this.day;
+    }
+    this.birthDate = (this.day)+"/"+(this.month)+"/"+(this.year)
+    this.userForm.value.birthDate = this.birthDate;
     console.log("data",data,i)
     this.drService.putDetails({data,id:i}).subscribe()
     // this.drService.getData("dialog").subscribe(v=>this.getList(v))

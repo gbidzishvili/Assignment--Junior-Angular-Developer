@@ -85,6 +85,7 @@ export class StatusComponent implements OnInit,OnChanges {
     this.idx = i;
   }
   DeleteNewStatus(){
+    console.log("idx:",this.idx)
     this.statusArr.splice(this.idx,1);
     this.drService.deleteCategories(this.endpoint,this.idx).subscribe()
     this.modalDeleteOpen = false;
