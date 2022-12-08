@@ -36,9 +36,6 @@ export class CategoriesComponent implements OnInit,OnChanges {
   constructor(public drService:DropdownServiceService,public router:Router,public http:HttpClient) { }
   
   ngOnInit(): void {
-    
-    
-    // this.usersArr = [...this.drService.getUsers()];
     this.FilterForm.get("filter").valueChanges.subscribe((x)=>{
       this.searchText = this.FilterForm.get("filter").value;
     })
@@ -54,17 +51,6 @@ export class CategoriesComponent implements OnInit,OnChanges {
       this.usersArr.push(v)
     })
   }
-  // getTasks(v){
-  //   console.log("v",v.toString())
-  //   let i = v;
-  //   localStorage.setItem("val",JSON.stringify(v))
-  //   console.log("parserd",JSON.parse(localStorage.getItem("val")))
-  //   // this.usersArr = JSON.parse(localStorage.getItem("val"));
-  //   JSON.parse(localStorage.getItem("val")).forEach(v=>{
-  //     console.log("vaax",v.category)
-  //     this.usersArr.push(v.category)
-  //   })
-  // }
   openEdit(i:number){
     console.log("idx",i)
     this.modalAddOpen=false;

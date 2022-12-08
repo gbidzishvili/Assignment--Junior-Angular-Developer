@@ -47,9 +47,7 @@ export class DropdownServiceService implements User {
   getListArrays(endpoint){
    return this.http.get(`http://localhost:3000/${endpoint}/arrays`)
   }
-  putCategories(body:{user:String,id:number}){
-   return this.http.put("http://localhost:3000/categories",body)
-  }
+ 
   putStatus(body:{status:String,id:number}){
    return this.http.put("http://localhost:3000/status",body)
   }
@@ -63,10 +61,16 @@ export class DropdownServiceService implements User {
   postDetails(body:User){
     return this.http.post("http://localhost:3000/dialog",body)
   }
-  putDetails(body:User){
-    return this.http.post("http://localhost:3000/dialog",body)
+  putDetails(body:{data:User,id:number}){
+    return this.http.put(`http://localhost:3000/dialog`,body)
   }
+  putCategories(body:{user:String,id:number}){
+    return this.http.put("http://localhost:3000/categories",body)
+   }
   deleteCategories(endpoint:string,id:number){
     return this.http.delete(`http://localhost:3000/delete/${endpoint}/${id}`)
+  }
+  deleteDialog(id:number){
+    return this.http.delete(`http://localhost:3000/delete/details/${id}`)
   }
 }

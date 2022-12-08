@@ -45,7 +45,8 @@ export class DialogComponent implements OnInit {
     category:"",
     status:""
   };
-  endpoint="getList"
+  endpoint="getList";
+  idx:number
   @Output() newItemEvent = new EventEmitter();
   constructor(public drService:DropdownServiceService,
     @Inject(MAT_DIALOG_DATA) public data) { }
@@ -59,6 +60,8 @@ export class DialogComponent implements OnInit {
       this.title="Add New User";
       this.adding = true;
     }else{
+      console.log(":)))))",this.data)
+      this.idx = this.data.id;
       this.action="Update";
       this.title="Edit User";
       this.editing=true;
@@ -72,7 +75,7 @@ export class DialogComponent implements OnInit {
     // this.list.forEach(c=>this.statusArr.push(c.status))
   }
   getList(v){
-    console.log("v: ",v)
+    console.log("es -----------------: ",v)
     this.list = [...v]
   }
   getValues(v){
@@ -111,6 +114,10 @@ export class DialogComponent implements OnInit {
     
   }
   addUser(){
+    for(let i in this.userForm.value){
+
+      this.sendingData[i] = this.userForm.value[i];
+  }
     if(this.data==="add"){
     this.year =new Date(this.userForm.value.birthDate).getFullYear();
     this.month =new Date(this.userForm.value.birthDate).getMonth()+1;
@@ -121,20 +128,19 @@ export class DialogComponent implements OnInit {
     this.birthDate = (this.day)+"/"+(this.month)+"/"+(this.year)
     this.userForm.value.birthDate = this.birthDate;
     console.log(this.userForm.value["category"])
-    for(let i in this.userForm.value){
-
-        this.sendingData[i] = this.userForm.value[i];
-    }
+   
     console.log(":::))",this.sendingData)
     this.list.push(this.sendingData)
     this.drService.postDetails(this.sendingData).subscribe()
     
     }else{
-      this.updateForm()
+      this.updateForm(this.sendingData,this.data.id)
     }
   }
-  updateForm(){
-    console.log("data:",this.data,this.userForm.value)
+  updateForm(data,i:number){
+    console.log("data",data,i)
+    this.drService.putDetails({data,id:i}).subscribe()
+    // this.drService.getData("dialog").subscribe(v=>this.getList(v))
   }
   isValid(){
     if(this.userForm.valid){

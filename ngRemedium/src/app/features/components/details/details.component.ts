@@ -20,6 +20,7 @@ export class DetailsComponent implements OnInit {
   list=[
    
   ]
+  displayedColumns1 = ['mail', 'pn', 'name', 'surname','birthDate','category',  'status'];
   displayedColumns = ['mail', 'pn', 'name', 'surname','birthDate','category',  'status','actions'];
   dataSource:MatTableDataSource<any>;
   maxDate = new Date(2022,11,30);
@@ -44,6 +45,7 @@ export class DetailsComponent implements OnInit {
     this.drService.getData(this.endpoint).subscribe(v=>this.getList(v))
    
   }
+
   openDialog(e): void {
     console.log("event: ",e)
     const dialogRef = this.dialog.open(DialogComponent, {
@@ -54,13 +56,21 @@ export class DetailsComponent implements OnInit {
     );
 }
   openDialogEdit(e,id): void {
-    console.log("event: ",id)
+    console.log("event: ",e)
+
+   this.idx= this.list.findIndex(val=>JSON.stringify(e)===JSON.stringify(val))
+  //  console.log(":::::::::x",x,this.list[x],e)
     const dialogRef = this.dialog.open(DialogComponent, {
       width: '35%',
-      data:{e,id},
-    });
+      data:{e,id:this.idx},
+    }).afterClosed().subscribe(v=>
+      this.drService.getData(this.endpoint).subscribe(v=>this.getList(v))
+    );
 }
- 
+  getId(i){
+    console.log("i:",i)
+    this.idx = i;
+  }
   getList(v){
     console.log("v: ",v)
     this.list = [...v]
@@ -128,12 +138,16 @@ export class DetailsComponent implements OnInit {
     console.log("smth")
   }
 
-  deleteElement(index){
+  deleteElement(val){
+    console.log("id:",val)
     if(confirm(
       `Do you want to delete user?`)){
-    this.list.splice(index,1)
-    this.drService.deleteCategories(this.endpoint,index).subscribe()
+        this.idx= this.list.findIndex(v=>JSON.stringify(v)===JSON.stringify(val))
+    this.list.splice(val,1)
+    console.log("index",this.idx)
+    this.drService.deleteDialog(this.idx).subscribe()
     // this.drService.getData(this.endpoint).subscribe(v=>this.getList(v))
+    this.drService.getData(this.endpoint).subscribe(v=>this.getList(v))
     this.dataSource.paginator = this.paginator;
   }
   }
