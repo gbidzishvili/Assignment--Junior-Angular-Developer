@@ -59,11 +59,14 @@ export class DropdownServiceService implements User {
   postStatus(body:{status:String}){
     return this.http.post("http://localhost:3000/status",body)
   }
-  deleteCategories(endpoint:string,id:number){
-    return this.http.delete(`http://localhost:3000/delete/${endpoint}/${id}`)
-  }
+
   postDetails(body:User){
     return this.http.post("http://localhost:3000/dialog",body)
   }
-  
+  putDetails(body:User){
+    return this.http.post("http://localhost:3000/dialog",body)
+  }
+  deleteCategories(endpoint:string,id:number){
+    return this.http.delete(`http://localhost:3000/delete/${endpoint}/${id}`)
+  }
 }

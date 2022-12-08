@@ -67,6 +67,7 @@ export class ListComponent implements OnInit {
     console.log("v: ",v)
     this.list = [...v]
     this.dataSource = new MatTableDataSource(this.list);
+    this.dataSource.paginator = this.paginator 
   }
   getValues(v){
     console.log("::1",this.statusArr,this.categoriesArr)

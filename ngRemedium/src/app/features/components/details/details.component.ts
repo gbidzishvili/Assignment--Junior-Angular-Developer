@@ -36,18 +36,13 @@ export class DetailsComponent implements OnInit {
     endDate : new FormControl(),
   })
   endpoint="details"
-
+  idx;
   @ViewChild('paginator') paginator:MatPaginator;
   constructor(public drService:DropdownServiceService,public dialog:MatDialog,public router:Router) {}
 
   ngOnInit(): void {
     this.drService.getData(this.endpoint).subscribe(v=>this.getList(v))
-    this.drService.isSaved.subscribe(v=>{
-      if(v){
-        this.drService.getData(this.endpoint).subscribe(v=>this.getList(v));
-        this.drService.isSaved.next(false);
-      }
-    })
+   
   }
   openDialog(e): void {
     console.log("event: ",e)
@@ -121,11 +116,6 @@ export class DetailsComponent implements OnInit {
       this.my_date(e.birthDate) >= this.my_date(this.startDate) && this.my_date(e.birthDate) <= this.my_date(this.endDate));
       console.log(this.dataSource.data)
   }
-  
-   
-  // ngAfterViewInit() {
-  //   this.dataSource.paginator = this.paginator;
-  // }
   my_date(date_string) {    
     var date_components = date_string.split("/");
     var day = date_components[0];
@@ -142,8 +132,9 @@ export class DetailsComponent implements OnInit {
     if(confirm(
       `Do you want to delete user?`)){
     this.list.splice(index,1)
-    this.dataSource = new MatTableDataSource(this.list);
-      this.dataSource.paginator = this.paginator
+    this.drService.deleteCategories(this.endpoint,index).subscribe()
+    // this.drService.getData(this.endpoint).subscribe(v=>this.getList(v))
+    this.dataSource.paginator = this.paginator;
   }
   }
 } 

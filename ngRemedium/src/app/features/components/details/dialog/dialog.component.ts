@@ -121,27 +121,14 @@ export class DialogComponent implements OnInit {
     this.birthDate = (this.day)+"/"+(this.month)+"/"+(this.year)
     this.userForm.value.birthDate = this.birthDate;
     console.log(this.userForm.value["category"])
-    // console.log(this.userForm.value["category"].user)
-    // console.log(this.userForm.value["category"])
     for(let i in this.userForm.value){
-      // if(i==="category"){
-      //   console.log("category",this.userForm.value[i].user)
-      //   this.sendingData[i] = this.userForm.value[i];
-      // }
-      // else if(i==="status"){
-      //    console.log("status",this.userForm.value[i].status)
-      //    this.sendingData[i] = this.userForm.value[i];
-      // }
-      // else{
+
         this.sendingData[i] = this.userForm.value[i];
-      // }
     }
     console.log(":::))",this.sendingData)
     this.list.push(this.sendingData)
     this.drService.postDetails(this.sendingData).subscribe()
-    this.drService.isSaved.next(true);
-    // this.drService.list.next(this.list)
-    // console.log("list",this.list)
+    
     }else{
       this.updateForm()
     }

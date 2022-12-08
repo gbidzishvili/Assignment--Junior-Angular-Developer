@@ -50,7 +50,7 @@
             <!-- <button *ngIf="adding" type="submit" class="add" (click)="addUser()"
             [ngClass]="isValid()" [disabled]="!formIsValid">Save</button> -->
             <button type="submit" class="add" (click)="addUser()"
-            [ngClass]="isValid()" [disabled]="!formIsValid">{{action}}</button>
+            [ngClass]="isValid()" [disabled]="!formIsValid" mat-dialog-close>{{action}}</button>
             <button type="button" mat-dialog-close>Cancel</button>
         </div>
    </form>
